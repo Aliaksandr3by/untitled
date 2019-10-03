@@ -2,6 +2,7 @@ package by.example.app.controller;
 
 
 import by.example.app.eJavaBean.PersonBean;
+import by.example.app.eJavaBean.PersonBeanLocal;
 import by.example.app.entity.Person;
 import by.example.app.entity.PersonContext;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 
-@Path("/HomeController/")
+@Path("/HomeController")
 @RequestScoped
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -25,14 +26,14 @@ public class HomeController {
 	private Logger logger;
 	private PersonContext personContext;
 
-	//@EJB
-	private PersonBean userBean;
+//	@EJB
+	private PersonBeanLocal personBean;
 
 	public HomeController() {
 	}
 
 	@Inject
-	public HomeController(Logger logger, PersonContext personContext) {
+	public HomeController(final Logger logger, final PersonContext personContext) {
 		this.logger = logger;
 		this.personContext = personContext;
 	}
@@ -44,8 +45,7 @@ public class HomeController {
 	}
 
 	@GET
-	@Path("")
-	@Produces(value = MediaType.APPLICATION_JSON)
+	@Path("/all")
 	public Response getPersons() throws Exception {
 		try {
 
@@ -62,7 +62,7 @@ public class HomeController {
 	}
 
 	@GET
-	@Path("{id}")
+	@Path("/{id}")
 	public Response getPersonById(@PathParam("id") Long id) {
 		try {
 
@@ -79,12 +79,11 @@ public class HomeController {
 	}
 
 	@GET
-	@Path("ejb")
-	@Produces(value = MediaType.APPLICATION_JSON)
+	@Path("/ejb")
 	public Response getejb() throws Exception {
 		try {
 
-			Person person = userBean.get(1);
+			Person person = personBean.get(1);
 
 			return Response.ok(person).status(Response.Status.OK).build();
 
@@ -100,7 +99,6 @@ public class HomeController {
 		try {
 
 			logger.info("Initiated invokeSessionBeanMethods method.");
-
 
 
 			Person people = personContext.insert(person);

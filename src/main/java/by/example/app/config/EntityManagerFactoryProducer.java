@@ -1,24 +1,32 @@
 package by.example.app.config;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.enterprise.inject.Default;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
-import javax.inject.Named;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-@Named
-@Singleton
+@ApplicationScoped
 public class EntityManagerFactoryProducer {
 
+	@Inject
+	private Logger logger;
+
 	@Produces
-	@Default
-	public EntityManagerFactory produceLogger(InjectionPoint injectionPoint) {
+	public EntityManagerFactory create() {
+
 		return Persistence.createEntityManagerFactory("CRM");
+	}
+
+	public void dispose(@Disposes EntityManagerFactory entityManagerFactory) {
+		if (entityManagerFactory.isOpen()) {
+			entityManagerFactory.close();
+			logger.info("entityManagerFactory.close()");
+		}
 	}
 
 }

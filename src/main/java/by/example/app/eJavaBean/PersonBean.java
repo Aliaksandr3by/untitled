@@ -2,24 +2,28 @@ package by.example.app.eJavaBean;
 
 import by.example.app.entity.Person;
 
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+import static javax.persistence.PersistenceContextType.*;
+import static javax.persistence.SynchronizationType.*;
+
+
 @Stateless
-public class PersonBean implements PersonBeanLocal<Person> {
+public class PersonBean implements PersonBeanLocal {
 
-	//	@PersistenceUnit(unitName = "CRM")
-	private EntityManagerFactory emf;
-
-//	@PersistenceContext(unitName = "DEVMODE")
 	private EntityManager em;
 
-	public PersonBean() {
+//	@PersistenceContext(unitName = "DEVMODE", type = EXTENDED, synchronization = UNSYNCHRONIZED)
+	public void setEntityManager(EntityManager em) {
+		this.em = em;
+	}
 
+	public PersonBean() {
 	}
 
 	// Добавляем Person-а В базу данных

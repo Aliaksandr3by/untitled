@@ -23,7 +23,8 @@ import java.util.Objects;
 public class PersonContext implements CrudRepository<Person> {
 
 	private Logger logger;
-	private EntityManagerFactory emf;
+
+	private EntityManager em;
 
 	Class<Person> clazz = Person.class;
 
@@ -37,9 +38,9 @@ public class PersonContext implements CrudRepository<Person> {
 	}
 
 	@Inject
-	public PersonContext(Logger logger, EntityManagerFactory emf) {
+	public PersonContext(final Logger logger, final EntityManager em) {
 		this.logger = logger;
-		this.emf = emf;
+		this.em = em;
 	}
 
 	@PreDestroy
@@ -51,10 +52,7 @@ public class PersonContext implements CrudRepository<Person> {
 	@Override
 	public List<Person> findAll(String sortOrder) throws Exception {
 
-		EntityManager em = null;
-
 		try {
-			em = emf.createEntityManager();
 
 			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 
@@ -77,8 +75,6 @@ public class PersonContext implements CrudRepository<Person> {
 
 		} catch (Exception e) {
 			throw e;
-		} finally {
-			if (em != null && em.isOpen()) em.close();
 		}
 
 	}
@@ -86,11 +82,7 @@ public class PersonContext implements CrudRepository<Person> {
 	@Override
 	public Person findById(Person item) {
 
-		EntityManager em = null;
-
 		try {
-
-			em = emf.createEntityManager();
 
 			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 
@@ -113,21 +105,15 @@ public class PersonContext implements CrudRepository<Person> {
 
 		} catch (Exception e) {
 			throw e;
-		} finally {
-			if (em != null && em.isOpen()) em.close();
 		}
-
 	}
 
 	@Override
 	public Person insert(Person item) {
 
-		EntityManager em = null;
 		EntityTransaction entityTransaction = null;
 
 		try {
-
-			em = emf.createEntityManager();
 
 			entityTransaction = em.getTransaction();
 
@@ -144,20 +130,15 @@ public class PersonContext implements CrudRepository<Person> {
 				entityTransaction.rollback();
 			}
 			throw e;
-		} finally {
-			if (em != null && em.isOpen()) em.close();
 		}
 	}
 
 	@Override
 	public Person delete(Person item) {
 
-		EntityManager em = null;
 		EntityTransaction entityTransaction = null;
 
 		try {
-
-			em = emf.createEntityManager();
 
 			entityTransaction = em.getTransaction();
 
@@ -177,8 +158,6 @@ public class PersonContext implements CrudRepository<Person> {
 				entityTransaction.rollback();
 			}
 			throw e;
-		} finally {
-			if (em != null && em.isOpen()) em.close();
 		}
 	}
 
