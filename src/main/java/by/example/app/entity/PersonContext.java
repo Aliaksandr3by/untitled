@@ -30,7 +30,7 @@ public class PersonContext implements CrudRepository<Person> {
 	@PostConstruct
 	public void init() {
 
-		logger.info("it was initialized");
+		logger.info(PersonContext.class.getName() + " was initialized", this);
 	}
 
 	public PersonContext() {
@@ -48,27 +48,13 @@ public class PersonContext implements CrudRepository<Person> {
 		logger.info("it was destroyed");
 	}
 
-
-
-
-//	@Inject
-//	public PersonContext(EntityManagerFactory emf) {
-//
-//		this.emf = emf;
-//	}
-
 	@Override
 	public List<Person> findAll(String sortOrder) throws Exception {
 
 		EntityManager em = null;
-		EntityTransaction entityTransaction = null;
 
 		try {
 			em = emf.createEntityManager();
-
-			entityTransaction = em.getTransaction();
-
-			entityTransaction.begin();
 
 			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 
@@ -76,25 +62,20 @@ public class PersonContext implements CrudRepository<Person> {
 
 			Root<Person> criteriaRoot = criteriaQuery.from(clazz);
 
-			Path<String> departmentId = criteriaRoot.get(sortOrder);
+			Path<String> id = criteriaRoot.get(sortOrder);
 
 			criteriaQuery
 					.select(criteriaRoot)
-					.orderBy(criteriaBuilder.asc(departmentId))
+					.orderBy(criteriaBuilder.asc(id))
 			;
 
 			TypedQuery<Person> query = em.createQuery(criteriaQuery);
 
 			List<Person> tmp = query.getResultList();
 
-			entityTransaction.commit();
-
 			return tmp;
 
 		} catch (Exception e) {
-			if (entityTransaction.isActive()) {
-				entityTransaction.rollback();
-			}
 			throw e;
 		} finally {
 			if (em != null && em.isOpen()) em.close();
@@ -106,15 +87,10 @@ public class PersonContext implements CrudRepository<Person> {
 	public Person findById(Person item) {
 
 		EntityManager em = null;
-		EntityTransaction entityTransaction = null;
 
 		try {
 
 			em = emf.createEntityManager();
-
-			entityTransaction = em.getTransaction();
-
-			entityTransaction.begin();
 
 			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 
@@ -122,25 +98,20 @@ public class PersonContext implements CrudRepository<Person> {
 
 			Root<Person> criteriaRoot = criteriaQuery.from(clazz);
 
-			Path<String> departmentId = criteriaRoot.get("idPerson");
+			Path<String> id = criteriaRoot.get("id");
 
 			criteriaQuery
 					.select(criteriaRoot)
-					.where(criteriaBuilder.equal(departmentId, item.getId()))
+					.where(criteriaBuilder.equal(id, item.getId()))
 			;
 
 			TypedQuery<Person> query = em.createQuery(criteriaQuery);
 
 			Person tmp = query.getSingleResult();
 
-			entityTransaction.commit();
-
 			return tmp;
 
 		} catch (Exception e) {
-			if (entityTransaction.isActive()) {
-				entityTransaction.rollback();
-			}
 			throw e;
 		} finally {
 			if (em != null && em.isOpen()) em.close();
