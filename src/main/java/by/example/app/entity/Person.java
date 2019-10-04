@@ -13,10 +13,10 @@ import java.util.Objects;
 public class Person implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "employee_id_seq")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "_id_seq")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "person_id")
-	private long id;
+	private Long id;
 
 	@NotNull
 	@Column(name = "person_name", nullable = false)
@@ -29,7 +29,7 @@ public class Person implements Serializable {
 	public Person() {
 	}
 
-	public Person(long id) {
+	public Person(Long id) {
 		this.id = id;
 	}
 
@@ -44,11 +44,11 @@ public class Person implements Serializable {
 		this.surName = surName;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

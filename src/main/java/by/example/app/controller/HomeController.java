@@ -73,7 +73,7 @@ public class HomeController {
 			return Response.ok(people).status(Response.Status.OK).build();
 
 		} catch (Throwable e) {
-			logger.error(e.getCause().getMessage(), e);
+			logger.error(e.getCause().getMessage(), e.getCause());
 			throw e;
 		}
 	}
@@ -103,9 +103,9 @@ public class HomeController {
 
 			Person people = personContext.insert(person);
 
-			Person tmp = personContext.findById(people);
+//			Person tmp = personContext.findById(people);
 
-			return Response.ok(tmp).build();
+			return Response.ok(people).build();
 
 		} catch (Throwable e) {
 			logger.error(e.getCause().getMessage(), e.getCause());

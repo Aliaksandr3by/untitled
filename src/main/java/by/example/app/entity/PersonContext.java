@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 
@@ -109,6 +110,7 @@ public class PersonContext implements CrudRepository<Person> {
 	}
 
 	@Override
+	@Transactional
 	public Person insert(Person item) {
 
 		EntityTransaction entityTransaction = null;
@@ -116,9 +118,9 @@ public class PersonContext implements CrudRepository<Person> {
 		try {
 
 			entityTransaction = em.getTransaction();
-
 			entityTransaction.begin();
 
+			logger.info(item.toString(), item);
 			em.persist(item);
 
 			entityTransaction.commit();
