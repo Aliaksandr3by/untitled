@@ -1,5 +1,6 @@
 package by.example.app.entity;
 
+import by.example.app.config.CRMMode;
 import by.example.app.exeptions.NotFoundException;
 import by.example.app.exeptions.NotImplementedException;
 import by.example.app.repositories.CrudRepository;
@@ -8,6 +9,8 @@ import org.slf4j.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.*;
@@ -39,7 +42,7 @@ public class PersonContext implements CrudRepository<Person> {
 	}
 
 	@Inject
-	public PersonContext(final Logger logger, final EntityManager em) {
+	public PersonContext(final Logger logger, @CRMMode final EntityManager em) {
 		this.logger = logger;
 		this.em = em;
 	}

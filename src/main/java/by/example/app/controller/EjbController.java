@@ -1,7 +1,6 @@
 package by.example.app.controller;
 
 
-import by.example.app.eJavaBean.PersonBean;
 import by.example.app.eJavaBean.PersonBeanLocal;
 import by.example.app.entity.Person;
 import by.example.app.entity.PersonContext;
@@ -17,39 +16,35 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 
-@Path("HomeController")
+@Path("EjbController")
 @RequestScoped
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-public class HomeController {
-
-	private Logger logger;
-	private PersonContext personContext;
-
-	public HomeController() {
-	}
+public class EjbController {
 
 	@Inject
-	public HomeController(final Logger logger, final PersonContext personContext) {
-		this.logger = logger;
-		this.personContext = personContext;
+	private Logger logger;
+
+	@EJB
+	private PersonBeanLocal personBean;
+
+	public EjbController() {
 	}
 
 	@PostConstruct
 	private void postConstruct() {
 
-		logger.info("HomeController @postConstruct method");
+		logger.info("@postConstruct method");
 	}
 
 	@GET
 	@Path("all")
 	public Response getPersons() throws Exception {
-
 		try {
 
 			logger.info("Initiated getIt method.");
 
-			List<Person> peoples = personContext.findAll("id");
+			List<Person> peoples = personBean.getAll();
 
 			return Response.ok(peoples).status(Response.Status.OK).build();
 
@@ -60,16 +55,15 @@ public class HomeController {
 	}
 
 	@GET
-	@Path("{id}")
-	public Response getPersonById(@PathParam("id") Long id) {
-
+	@Path("/{id}")
+	public Response getejb(@PathParam("id") Long id) throws Exception {
 		try {
 
 			logger.info("Initiated getIt method.");
 
-			Person people = personContext.findById(new Person(id));
+			Person person = personBean.get(id);
 
-			return Response.ok(people).status(Response.Status.OK).build();
+			return Response.ok(person).status(Response.Status.OK).build();
 
 		} catch (Throwable e) {
 			logger.error(e.getCause().getMessage(), e.getCause());
@@ -84,7 +78,7 @@ public class HomeController {
 
 			logger.info("Initiated invokeSessionBeanMethods method.");
 
-			personContext.insert(person);
+			personBean.add(person);
 
 			return Response.ok(person).build();
 
