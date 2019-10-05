@@ -110,7 +110,7 @@ public class PersonContext implements CrudRepository<Person> {
 	}
 
 	@Override
-	@Transactional
+//	@Transactional
 	public Person insert(Person item) {
 
 		EntityTransaction entityTransaction = null;

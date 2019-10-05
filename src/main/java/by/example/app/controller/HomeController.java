@@ -100,12 +100,9 @@ public class HomeController {
 
 			logger.info("Initiated invokeSessionBeanMethods method.");
 
+			personContext.insert(person);
 
-			Person people = personContext.insert(person);
-
-//			Person tmp = personContext.findById(people);
-
-			return Response.ok(people).build();
+			return Response.ok(person).build();
 
 		} catch (Throwable e) {
 			logger.error(e.getCause().getMessage(), e.getCause());
