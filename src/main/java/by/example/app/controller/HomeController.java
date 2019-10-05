@@ -26,7 +26,7 @@ public class HomeController {
 	private Logger logger;
 	private PersonContext personContext;
 
-//	@EJB
+	@EJB
 	private PersonBeanLocal personBean;
 
 	public HomeController() {

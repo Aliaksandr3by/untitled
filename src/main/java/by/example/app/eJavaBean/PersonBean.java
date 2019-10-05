@@ -18,7 +18,7 @@ public class PersonBean implements PersonBeanLocal {
 
 	private EntityManager em;
 
-//	@PersistenceContext(unitName = "DEVMODE", type = EXTENDED, synchronization = UNSYNCHRONIZED)
+	@PersistenceContext(unitName = "DEVMODE", type = EXTENDED, synchronization = UNSYNCHRONIZED)
 	public void setEntityManager(EntityManager em) {
 		this.em = em;
 	}
