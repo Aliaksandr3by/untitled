@@ -1,13 +1,11 @@
-package by.example.app.controller;
+package by.example.app.presentation;
 
 
-import by.example.app.eJavaBean.PersonBeanLocal;
-import by.example.app.entity.Person;
-import by.example.app.entity.PersonContext;
-import org.slf4j.Logger;
+import by.example.app.domain.Person;
+import by.example.app.models.PersonContext;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -16,35 +14,43 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 
-@Path("EjbController")
+@Path("HomeController")
 @RequestScoped
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-public class EjbController {
+public class PersonController {
+
+	private transient Logger logger;
+	private PersonContext personContext;
+
+	public PersonController() {
+	}
 
 	@Inject
-	private Logger logger;
-
-	@EJB
-	private PersonBeanLocal personBean;
-
-	public EjbController() {
+	public PersonController(final Logger logger, final PersonContext personContext) {
+		this.logger = logger;
+		this.personContext = personContext;
 	}
 
 	@PostConstruct
 	private void postConstruct() {
 
-		logger.info("@postConstruct method");
+		logger.info("HomeController @postConstruct info", this.getClass().getSimpleName());
+		logger.error("HomeController @postConstruct error");
+		logger.debug("HomeController @postConstruct debug");
+		logger.trace("HomeController @postConstruct trace");
+		logger.warn("HomeController @postConstruct warn");
 	}
 
 	@GET
 	@Path("all")
 	public Response getPersons() throws Exception {
+
 		try {
 
 			logger.info("Initiated getIt method.");
 
-			List<Person> peoples = personBean.getAll();
+			List<Person> peoples = personContext.findAll("id");
 
 			return Response.ok(peoples).status(Response.Status.OK).build();
 
@@ -55,15 +61,16 @@ public class EjbController {
 	}
 
 	@GET
-	@Path("/{id}")
-	public Response getejb(@PathParam("id") Long id) throws Exception {
+	@Path("{id}")
+	public Response getPersonById(@PathParam("id") Long id) {
+
 		try {
 
 			logger.info("Initiated getIt method.");
 
-			Person person = personBean.get(id);
+			Person people = personContext.findById(new Person(id));
 
-			return Response.ok(person).status(Response.Status.OK).build();
+			return Response.ok(people).status(Response.Status.OK).build();
 
 		} catch (Throwable e) {
 			logger.error(e.getCause().getMessage(), e.getCause());
@@ -78,7 +85,7 @@ public class EjbController {
 
 			logger.info("Initiated invokeSessionBeanMethods method.");
 
-			personBean.add(person);
+			personContext.insert(person);
 
 			return Response.ok(person).build();
 

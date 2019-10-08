@@ -1,6 +1,4 @@
-package by.example.app.entity;
-
-import org.hibernate.annotations.GenericGenerator;
+package by.example.app.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,8 +11,7 @@ import java.util.Objects;
 public class Person implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "_id_seq")
-	@GenericGenerator(name = "increment", strategy = "increment")
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "_id_seq")
 	@Column(name = "person_id")
 	private Long id;
 

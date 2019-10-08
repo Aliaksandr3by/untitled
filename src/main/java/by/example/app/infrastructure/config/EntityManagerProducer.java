@@ -1,6 +1,6 @@
-package by.example.app.config;
+package by.example.app.infrastructure.config;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;

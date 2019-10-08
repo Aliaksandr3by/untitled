@@ -1,12 +1,12 @@
-package by.example.app.eJavaBean;
+package by.example.app.infrastructure.persistence;
 
-import by.example.app.entity.Person;
+import by.example.app.domain.Person;
 
 import javax.ejb.Local;
 import java.util.List;
 
 @Local
-public interface PersonBeanLocal {
+public interface PersonBeanLocalRepository {
 
 	Person add(Person user);
 

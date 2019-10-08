@@ -1,24 +1,25 @@
-package by.example.app.entity;
+package by.example.app.models;
 
-import by.example.app.config.CRMMode;
+import by.example.app.domain.Person;
 import by.example.app.exeptions.NotFoundException;
 import by.example.app.exeptions.NotImplementedException;
-import by.example.app.repositories.CrudRepository;
-import org.slf4j.Logger;
+import by.example.app.infrastructure.config.CRMMode;
+import by.example.app.infrastructure.persistence.CrudRepository;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +29,7 @@ public class PersonContext implements CrudRepository<Person> {
 
 	private Logger logger;
 
+//	@PersistenceUnit(unitName = "CRM")
 	private EntityManager em;
 
 	Class<Person> clazz = Person.class;
@@ -35,7 +37,7 @@ public class PersonContext implements CrudRepository<Person> {
 	@PostConstruct
 	public void init() {
 
-		logger.info(PersonContext.class.getName() + " was initialized", this);
+		logger.info(PersonContext.class.getName() + " was initialized");
 	}
 
 	public PersonContext() {
@@ -113,7 +115,6 @@ public class PersonContext implements CrudRepository<Person> {
 	}
 
 	@Override
-//	@Transactional
 	public Person insert(Person item) {
 
 		EntityTransaction entityTransaction = null;

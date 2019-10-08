@@ -1,6 +1,4 @@
-package by.example.app.repositories;
-
-import org.hibernate.ObjectNotFoundException;
+package by.example.app.infrastructure.persistence;
 
 import java.util.Collection;
 
@@ -8,7 +6,7 @@ public interface CrudRepository<T> {
 
 	Collection<T> findAll(String sortOrder) throws Exception;
 
-	T findById(T item) throws ObjectNotFoundException;
+	T findById(T item) throws Exception;
 
 	T insert(T item);
 

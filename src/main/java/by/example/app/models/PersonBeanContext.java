@@ -1,6 +1,7 @@
-package by.example.app.eJavaBean;
+package by.example.app.models;
 
-import by.example.app.entity.Person;
+import by.example.app.infrastructure.persistence.PersonBeanLocalRepository;
+import by.example.app.domain.Person;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -13,19 +14,19 @@ import java.util.List;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class PersonBean implements PersonBeanLocal {
+public class PersonBeanContext implements PersonBeanLocalRepository {
 
 	@PersistenceContext(unitName = "POOLMODE")
 	private EntityManager em;
 
-	public PersonBean() {
+	public PersonBeanContext() {
 	}
 
-	// Добавляем Person-а В базу данных
+	// Получаем все пользователей с БД
 	@Override
-	public Person add(Person user) {
-
-		return em.merge(user);
+	public List<Person> getAll() {
+		TypedQuery<Person> namedQuery = em.createNamedQuery("Person.getAll", Person.class);
+		return namedQuery.getResultList();
 	}
 
 	// Получаем пользователя по id
@@ -33,6 +34,13 @@ public class PersonBean implements PersonBeanLocal {
 	public Person get(long id) {
 
 		return em.find(Person.class, id);
+	}
+
+	// Добавляем Person-а В базу данных
+	@Override
+	public Person add(Person user) {
+
+		return em.merge(user);
 	}
 
 	// обновляем пользователя
@@ -50,13 +58,5 @@ public class PersonBean implements PersonBeanLocal {
 
 		em.remove(get(id));
 	}
-
-	// Получаем все пользователей с БД
-	@Override
-	public List<Person> getAll() {
-		TypedQuery<Person> namedQuery = em.createNamedQuery("Person.getAll", Person.class);
-		return namedQuery.getResultList();
-	}
-
 
 }

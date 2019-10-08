@@ -1,4 +1,4 @@
-package by.example.app.controller;
+package by.example.app.presentation;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -16,7 +16,7 @@ import javax.inject.Inject;
 public class HomeControllerTest {
 
 	@Inject
-	private HomeController cd;
+	private PersonController cd;
 
 	@Deployment
 	public static JavaArchive createDeployment() {

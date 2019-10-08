@@ -1,4 +1,4 @@
-package by.example.app.config;
+package by.example.app.infrastructure.config;
 
 import javax.inject.Qualifier;
 import java.lang.annotation.Retention;

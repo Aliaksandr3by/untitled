@@ -1,9 +1,8 @@
-package by.example.app.config;
+package by.example.app.infrastructure.config;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
