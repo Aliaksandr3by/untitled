@@ -1,31 +1,24 @@
 package by.example.app.presentation;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import by.example.app.models.PersonContext;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import javax.inject.Inject;
 
-@Ignore
-@RunWith(Arquillian.class)
+import static org.junit.Assert.*;
+
+@RunWith(JUnit4.class)
 public class HomeControllerTest {
 
 	@Inject
-	private PersonController cd;
-
-	@Deployment
-	public static JavaArchive createDeployment() {
-		return ShrinkWrap.create(JavaArchive.class).addAsManifestResource(EmptyAsset.INSTANCE, "WEB-INF/beans.xml");
-	}
+	private PersonContext cd;
 
 
 	@Test
 	public void cdShouldNotBeNull() {
-
+		assertNotNull("should not be null", cd);
 	}
 }

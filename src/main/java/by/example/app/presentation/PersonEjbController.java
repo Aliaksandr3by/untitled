@@ -1,6 +1,5 @@
 package by.example.app.presentation;
 
-
 import by.example.app.infrastructure.persistence.PersonBeanLocalRepository;
 import by.example.app.domain.Person;
 import org.apache.logging.log4j.Logger;
