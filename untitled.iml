@@ -21,8 +21,8 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="CRM" value="8fc2f6cf-afe3-4ad9-bb57-5926fe2f4286" />
-          <factory-entry name="POOLMODE" />
+          <factory-entry name="CRM" value="576de3f5-05bb-4a8b-b053-7e0f703adfe3" />
+          <factory-entry name="POOLMODE" value="576de3f5-05bb-4a8b-b053-7e0f703adfe3" />
           <factory-entry name="productttr43" value="d8a43fa3-cffe-4394-82a2-a657844f9280" />
         </datasource-mapping>
         <naming-strategy-map />
@@ -86,5 +86,8 @@
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.12.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.12.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-web:2.12.1" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.10.0" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.10.0" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.10.0" level="project" />
   </component>
 </module>
