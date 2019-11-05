@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "employee", schema = "public")
+@Table(name = "employee", schema = "dbo")
 @Access(AccessType.PROPERTY)
 @NamedQuery(name = "Employee.getAll", query = "SELECT u from Employee u")
 public class Employee implements Serializable {
@@ -67,7 +67,7 @@ public class Employee implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "employee_id_seq")
-	@Column(name = "employee_id", nullable = false, updatable = false)
+	@Column(name = "employee_id", columnDefinition = "BIGINT", nullable = false, updatable = false)
 	public Long getEmployeeId() {
 		return employeeId;
 	}

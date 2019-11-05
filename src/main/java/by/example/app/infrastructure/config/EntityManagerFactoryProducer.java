@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+@Deprecated
 @ApplicationScoped
 public class EntityManagerFactoryProducer {
 

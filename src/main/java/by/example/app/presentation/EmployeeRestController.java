@@ -1,10 +1,11 @@
 package by.example.app.presentation;
 
-import by.example.app.infrastructure.persistence.EmployeeBeanLocalRepository;
 import by.example.app.domain.Employee;
+import by.example.app.infrastructure.persistence.EmployeeBeanLocalRepository;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -35,16 +36,21 @@ public class EmployeeRestController {
 
 	@PostConstruct
 	private void postConstruct() {
+		logger.info("@postConstruct EmployeeRestController");
+	}
 
-		logger.info("@postConstruct method");
+	@PreDestroy
+	private void preDestroy() {
+
+		logger.info("@preDestroy EmployeeRestController");
 	}
 
 	@GET
 	@Path("employees")
-	public Response getEmployees() throws Exception {
+	public Response getEmployees() {
 		try {
 
-			logger.info("Initiated getEmployees method.");
+			logger.info("Initiated getEmployees method");
 
 			List<Employee> peoples = EmployeeBean.getAll();
 
@@ -58,14 +64,16 @@ public class EmployeeRestController {
 
 	@GET
 	@Path("{id}")
-	public Response getEmployee(@PathParam("id") Long id) throws Exception {
+	public Response getEmployee(@PathParam("id") Long id) {
 		try {
 
 			logger.info("Initiated getEmployee method.");
 
-			Employee Employee = EmployeeBean.get(id);
+			Employee employee = EmployeeBean.get(id);
 
-			return Response.ok(Employee).status(Response.Status.OK).build();
+			logger.info(employee.toString());
+
+			return Response.ok(employee).status(Response.Status.OK).build();
 
 		} catch (Throwable e) {
 			logger.error(e.getCause().getMessage(), e.getCause());
@@ -74,7 +82,7 @@ public class EmployeeRestController {
 	}
 
 	@POST
-	public Response insertEmployee(final Employee employee) throws Exception {
+	public Response insertEmployee(final Employee employee) {
 
 		try {
 
@@ -93,7 +101,7 @@ public class EmployeeRestController {
 
 	@DELETE
 	@Path("{id}")
-	public Response deleteEmployee(@PathParam("id") final Long id)  {
+	public Response deleteEmployee(@PathParam("id") final Long id) {
 
 		try {
 
