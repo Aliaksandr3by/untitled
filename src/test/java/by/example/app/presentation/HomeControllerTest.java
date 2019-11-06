@@ -12,12 +12,13 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(JUnit4.class)
 public class HomeControllerTest {
 
-	@EJB
-	private EmployeeBeanContext cd;
+	private EmployeeBeanContext cd = new EmployeeBeanContext();
 
 
 	@Test
-	public void cdShouldNotBeNull() {
+	public void cdShouldNotBeNull() throws Exception {
+
 		assertNotNull("should not be null", cd);
+		//throw new Exception("test");
 	}
 }
