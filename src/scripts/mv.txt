@@ -1,0 +1,13 @@
+mvn dependency:analyze
+mvn dependency:analyze-duplicate
+mvn dependency:resolve
+mvn dependency:resolve-plugin
+mvn dependency:tree
+mvn dependency:list
+
+mvn versions:display-plugin-updates
+mvn versions:display-dependency-updates
+mvn -D allowIncrementalUpdates=true -D allowMajorUpdates=true versions:display-dependency-updates
+
+
+mvn package –Dmaven.test.skip=true

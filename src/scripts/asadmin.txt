@@ -1,0 +1,33 @@
+jdbc:postgresql://localhost:5433/employeedb
+guest
+
+asadmin create-domain domain2
+asadmin stop-domain domain2
+asadmin start-domain domain2
+asadmin restart-domain domain2
+asadmin delete-domain domain2
+
+c:\opt\glassfish5\glassfish\domains\domain2\lib\ext\postgresql-42.2.8.jar
+
+	--datasourceclassname org.postgresql.ds.PGConnectionPoolDataSource 
+	--restype javax.sql.ConnectionPoolDataSource 
+	--property user=guest:password=guest:DatabaseName=employeedb:ServerName=localhost:port=5433:Encoding=UTF-8 poolpostgre
+
+asadmin create-jdbc-connection-pool --datasourceclassname org.postgresql.ds.PGConnectionPoolDataSource --restype javax.sql.ConnectionPoolDataSource --property user=guest:password=guest:url="jdbc\:postgresql\://localhost\:5433/employeedb":Encoding=UTF-8 poolpostgre
+
+asadmin ping-connection-pool poolpostgre
+
+asadmin create-jdbc-resource --connectionpoolid poolpostgre jdbc/poolpostgre
+
+
+asadmin deploy --keepstate=true --contextroot=app --name=app-1.4-SNAPSHOT target/app-1.4-SNAPSHOT.war
+asadmin redeploy --keepstate=true --contextroot=app --name=app-1.4-SNAPSHOT target/app-1.4-SNAPSHOT.war
+asadmin undeploy 'app*'
+
+asadmin list-applications -l
+
+asadmin disable app-1.4-SNAPSHOT
+asadmin enable app-1.4-SNAPSHOT
+
+
+

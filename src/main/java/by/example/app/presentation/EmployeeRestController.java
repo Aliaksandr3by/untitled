@@ -24,14 +24,14 @@ public class EmployeeRestController {
 	private transient Logger logger;
 
 	@EJB
-	private EmployeeBeanLocalRepository EmployeeBean;
+	private EmployeeBeanLocalRepository employeeBean;
 
 	public EmployeeRestController() {
 	}
 
 	public EmployeeRestController(Logger logger, EmployeeBeanLocalRepository EmployeeBean) {
 		this.logger = logger;
-		this.EmployeeBean = EmployeeBean;
+		this.employeeBean = EmployeeBean;
 	}
 
 	@PostConstruct
@@ -52,7 +52,7 @@ public class EmployeeRestController {
 
 			logger.info("Initiated getEmployees method");
 
-			List<Employee> peoples = EmployeeBean.getAll();
+			List<Employee> peoples = employeeBean.getAll();
 
 			return Response.status(Response.Status.OK).entity(peoples).build();
 
@@ -69,7 +69,7 @@ public class EmployeeRestController {
 
 			logger.info("Initiated getEmployee method.");
 
-			Employee employee = EmployeeBean.get(id);
+			Employee employee = employeeBean.get(id);
 
 			logger.info(employee.toString());
 
@@ -88,7 +88,7 @@ public class EmployeeRestController {
 
 			logger.info("Initiated insertEmployee method.");
 
-			EmployeeBean.add(employee);
+			employeeBean.add(employee);
 
 			return Response.status(Response.Status.CREATED).build();
 
@@ -107,7 +107,7 @@ public class EmployeeRestController {
 
 			logger.info("Initiated deleteEmployee method.");
 
-			EmployeeBean.delete(id);
+			employeeBean.delete(id);
 
 			return Response.status(Response.Status.NO_CONTENT).build();
 
