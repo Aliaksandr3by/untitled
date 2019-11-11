@@ -28,6 +28,12 @@
 		<!--		<maven.compiler.release>11</maven.compiler.release>-->
 	</properties>
 
+	<scm>
+		<connection>scm:git:https://github.com/Aliaksandr3by/untitled.git</connection>
+		<developerConnection>scm:git:https://github.com/Aliaksandr3by/untitled.git</developerConnection>
+		<url>https://github.com/Aliaksandr3by/untitled</url>
+	</scm>
+
 	<dependencies>
 
 		<dependency>
