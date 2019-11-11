@@ -10,6 +10,14 @@
 	<packaging>war</packaging>
 
 	<name>${project.artifactId}</name>
+	<url>http://desktop-obc9s1r.ddns.net/</url>
+	<description>qwe</description>
+
+	<licenses>
+		<license>
+			<name>free</name>
+		</license>
+	</licenses>
 
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
@@ -17,6 +25,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<!--		<maven.compiler.source>1.8</maven.compiler.source>-->
 		<!--		<maven.compiler.target>1.8</maven.compiler.target>-->
+		<!--		<maven.compiler.release>11</maven.compiler.release>-->
 	</properties>
 
 	<dependencies>
@@ -35,18 +44,18 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>jakarta.ws.rs</groupId>
-			<artifactId>jakarta.ws.rs-api</artifactId>
-			<version>2.1.6</version>
-			<scope>compile</scope>
-		</dependency>
+		<!--		<dependency>-->
+		<!--			<groupId>jakarta.ws.rs</groupId>-->
+		<!--			<artifactId>jakarta.ws.rs-api</artifactId>-->
+		<!--			<version>2.1.6</version>-->
+		<!--			<scope>compile</scope>-->
+		<!--		</dependency>-->
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>42.2.8</version>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -172,18 +181,38 @@
 			<version>2.10.0</version>
 		</dependency>
 
-
 	</dependencies>
 
+
+
 	<build>
+		<defaultGoal>install</defaultGoal>
+		<directory>${basedir}/target</directory>
+		<finalName>${project.artifactId}-${project.version}</finalName>
+
+		<filters>
+			<!--			files that contain a list of properties that apply to resources which accept their settings-->
+			<filter>${basedir}/src/main/filters/my-filter-values.properties</filter>
+		</filters>
+
 		<resources>
 			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>false</filtering>
 			</resource>
 		</resources>
-		<!--		<sourceDirectory>./src/main/java</sourceDirectory>-->
-		<!--		<finalName>${project.artifactId}</finalName>-->
+
+		<sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+		<testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
+		<outputDirectory>${basedir}/target/classes</outputDirectory>
+		<testOutputDirectory>${basedir}/target/test-classes</testOutputDirectory>
+
+		<!--		extensions are artifacts that activated during build-->
+		<extensions>
+
+		</extensions>
+
+		<!--		this only configures plugins that are actually referenced within the plugins element in the children or in the current POM.-->
 		<pluginManagement>
 			<!--			mvn plugin_identifier:goal_identifier-->
 			<plugins>
@@ -192,32 +221,26 @@
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>3.2.0</version>
 				</plugin>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
+					<artifactId>maven-dependency-plugin</artifactId>
 					<version>3.1.1</version>
-					<configuration>
-						<show>private</show>
-						<nohelp>true</nohelp>
-					</configuration>
 				</plugin>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-clean-plugin</artifactId>
 					<version>3.1.0</version>
 					<executions>
-						<execution>
-							<id>auto-clean</id>
-							<phase>initialize</phase>
-							<goals>
-								<goal>clean</goal>
-							</goals>
-						</execution>
+						<!--						<execution>-->
+						<!--							<id>auto-clean</id>-->
+						<!--							<phase>initialize</phase>-->
+						<!--							<goals>-->
+						<!--								<goal>clean</goal>-->
+						<!--							</goals>-->
+						<!--						</execution>-->
 					</executions>
 					<configuration>
-						<skip>false</skip>
+						<!--						<skip>false</skip>-->
 					</configuration>
 				</plugin>
 				<plugin>
@@ -243,18 +266,7 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>3.0.0-M3</version>
 					<configuration>
-						<argLine>
-							--illegal-access=permit
-						</argLine>
-<!--						<skipTests>true</skipTests>-->
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>3.2.3</version>
-					<configuration>
-						<failOnMissingWebXml>false</failOnMissingWebXml>
+						<!--						<skipTests>false</skipTests>-->
 					</configuration>
 				</plugin>
 				<plugin>
@@ -270,15 +282,9 @@
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-project-info-reports-plugin</artifactId>
-					<version>3.0.0</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
 					<version>3.8.2</version>
 				</plugin>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-pmd-plugin</artifactId>
@@ -292,13 +298,6 @@
 						</execution>
 					</executions>
 				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.1.1</version>
-				</plugin>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-enforcer-plugin</artifactId>
@@ -322,17 +321,48 @@
 
 			</plugins>
 		</pluginManagement>
+
+		<!--		they would apply only to a single POM.-->
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.3</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+		</plugins>
+
 	</build>
 
+	<!--	Reporting contains the elements that correspond specifically for the site generation phase-->
 	<reporting>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.1.1</version>
 				<configuration>
 					<show>public</show>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.0.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>3.0.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.0.0-M3</version>
+			</plugin>
 		</plugins>
 	</reporting>
+
 </project>
