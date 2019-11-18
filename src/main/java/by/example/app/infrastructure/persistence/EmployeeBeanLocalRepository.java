@@ -5,16 +5,17 @@ import by.example.app.domain.Employee;
 import javax.ejb.Local;
 import java.util.List;
 
-@Local
+@Local //можно опустить, по умолчанию local
+// компоненты EJB вообще могут обходиться без каких-либо интерфейсов.
 public interface EmployeeBeanLocalRepository {
 
 	Employee add(Employee user);
 
-	Employee get(long id);
+	Employee findById(long id);
 
-	void update(Employee user);
+	Employee update(Employee user);
 
-	void delete(long id);
+	void remove(long id);
 
 	List<Employee> getAll();
 }

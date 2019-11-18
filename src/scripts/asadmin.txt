@@ -1,3 +1,7 @@
+GLASSFISH_HOME C:\opt\glassfish51full
+<Glassfish_Home>/glassfish/config/asenv.bat 
+set AS_JAVA=C:\Program Files\Java\jdk1.8.0_231
+
 jdbc:postgresql://localhost:5433/employeedb
 guest
 
@@ -20,11 +24,14 @@ asadmin ping-connection-pool poolpostgre
 asadmin create-jdbc-resource --connectionpoolid poolpostgre jdbc/poolpostgre
 
 
-asadmin deploy --keepstate=true --contextroot=app --name=app-1.4-SNAPSHOT target/app-1.4-SNAPSHOT.war
+asadmin deploy --keepstate=true --contextroot=app --name=app-1.4-SNAPSHOT "c:/Users/shpak/.m2/repository/by/com/app/1.4-SNAPSHOT/app-1.4-SNAPSHOT.war"
 asadmin redeploy --keepstate=true --contextroot=app --name=app-1.4-SNAPSHOT target/app-1.4-SNAPSHOT.war
 asadmin undeploy 'app*'
 
 asadmin list-applications -l
+asadmin list-jdbc-connection-pools
+asadmin list-jdbc-resources
+asadmin list-jms-resources
 
 asadmin disable app-1.4-SNAPSHOT
 asadmin enable app-1.4-SNAPSHOT

@@ -3,14 +3,16 @@ package by.example.app.domain;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "employee", schema = "dbo")
 @Access(AccessType.PROPERTY)
-@NamedQuery(name = "Employee.getAll", query = "SELECT u from Employee u")
+@NamedQuery(name = "Employee.getAll", query = "SELECT u from Employee u order by u.employeeId")
 public class Employee implements Serializable {
 
 	//TODO delete
@@ -25,8 +27,10 @@ public class Employee implements Serializable {
 
 		if (patch.getFirstName() != null) this.setFirstName(patch.getFirstName());
 		if (patch.getLastName() != null) this.setLastName(patch.getLastName());
-		if (patch.getGender() != null) this.setGender(patch.getGender());
+		if (patch.getDepartmentId() != null) this.setDepartmentId(patch.getDepartmentId());
 		if (patch.getJobTitle() != null) this.setJobTitle(patch.getJobTitle());
+		if (patch.getGender() != null) this.setGender(patch.getGender());
+		if (patch.getDateOfBirth() != null) this.setDateOfBirth(patch.getDateOfBirth());
 
 		return this;
 	}
@@ -46,7 +50,10 @@ public class Employee implements Serializable {
 		this.employeeId = employeeId;
 	}
 
-	public Employee(String firstName, String lastName, Integer departmentId, String jobTitle, Gender gender, LocalDate dateOfBirth) {
+	public Employee(String firstName, String lastName,
+					Integer departmentId, String jobTitle,
+					Gender gender,
+					LocalDate dateOfBirth) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.departmentId = departmentId;
@@ -55,7 +62,10 @@ public class Employee implements Serializable {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public Employee(Long employeeId, String firstName, String lastName, Integer departmentId, String jobTitle, Gender gender, LocalDate dateOfBirth) {
+	public Employee(
+			Long employeeId,
+			String firstName, String lastName,
+			Integer departmentId, String jobTitle, Gender gender, LocalDate dateOfBirth) {
 		this.employeeId = employeeId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -72,12 +82,14 @@ public class Employee implements Serializable {
 		return employeeId;
 	}
 
+	@NotBlank(message = "first name cannot be Blank")
 	@Column(name = "first_name", nullable = false)
 	@Type(type = "text")
 	public String getFirstName() {
 		return firstName;
 	}
 
+	@NotBlank(message = "last name cannot be Blank")
 	@Column(name = "last_name", nullable = false)
 	@Type(type = "text")
 	@Basic
@@ -85,12 +97,14 @@ public class Employee implements Serializable {
 		return lastName;
 	}
 
+	@PositiveOrZero
 	@Column(name = "department_id", nullable = false)
 	@Basic
 	public Integer getDepartmentId() {
 		return departmentId;
 	}
 
+	@NotBlank(message = "cannot be Blank")
 	@Column(name = "job_title", nullable = false)
 	@Basic
 	@Type(type = "text")
@@ -104,6 +118,7 @@ public class Employee implements Serializable {
 		return gender;
 	}
 
+	@PastOrPresent(message = "{PastOrPresent}")
 	@Column(name = "date_of_birth", nullable = false, columnDefinition = "DATE")
 	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
