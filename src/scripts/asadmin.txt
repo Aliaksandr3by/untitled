@@ -24,17 +24,17 @@ asadmin ping-connection-pool poolpostgre
 asadmin create-jdbc-resource --connectionpoolid poolpostgre jdbc/poolpostgre
 
 
-asadmin deploy --keepstate=true --contextroot=app --name=app-1.4-SNAPSHOT "c:/Users/shpak/.m2/repository/by/com/app/1.4-SNAPSHOT/app-1.4-SNAPSHOT.war"
-asadmin redeploy --keepstate=true --contextroot=app --name=app-1.4-SNAPSHOT target/app-1.4-SNAPSHOT.war
-asadmin undeploy 'app*'
+asadmin deploy --keepstate=true --contextroot=untitled --name=untitled-1.4-SNAPSHOT "c:/Users/shpak/.m2/repository/com/example/untitled/1.4-SNAPSHOT/untitled-1.4-SNAPSHOT.war"
+asadmin redeploy --keepstate=true --contextroot=untitled --name=untitled-1.4-SNAPSHOT target/untitled-1.4-SNAPSHOT.war
+asadmin undeploy 'untitled*'
 
 asadmin list-applications -l
 asadmin list-jdbc-connection-pools
 asadmin list-jdbc-resources
 asadmin list-jms-resources
 
-asadmin disable app-1.4-SNAPSHOT
-asadmin enable app-1.4-SNAPSHOT
+asadmin disable untitled-1.4-SNAPSHOT
+asadmin enable untitled-1.4-SNAPSHOT
 
 
 

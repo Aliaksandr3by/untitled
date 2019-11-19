@@ -1,4 +1,4 @@
-package by.example.app.exeptions;
+package com.example.untitled.exeptions;
 
 public class NotFoundException extends RuntimeException {
 

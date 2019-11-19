@@ -1,4 +1,4 @@
-package by.example.app.infrastructure.persistence;
+package com.example.untitled.infrastructure.persistence;
 
 import java.util.Collection;
 

@@ -1,4 +1,4 @@
-package by.example.app.domain;
+package com.example.untitled.domain;
 
 public enum Gender {
 	MALE,

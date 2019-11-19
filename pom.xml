@@ -4,8 +4,8 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>by.com</groupId>
-	<artifactId>app</artifactId>
+	<groupId>com.example</groupId>
+	<artifactId>untitled</artifactId>
 	<version>1.4-SNAPSHOT</version>
 	<packaging>war</packaging>
 
@@ -36,19 +36,6 @@
 
 	<dependencies>
 
-		<!--		<dependency>-->
-		<!--			<groupId>javax</groupId>-->
-		<!--			<artifactId>javaee-web-api</artifactId>-->
-		<!--			<version>8.0.1</version>-->
-		<!--			<scope>provided</scope>-->
-		<!--		</dependency>-->
-		<dependency>
-			<groupId>org.apache.tomee</groupId>
-			<artifactId>tomee-embedded</artifactId>
-			<version>8.0.0</version>
-			<scope>test</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
@@ -57,30 +44,10 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<version>2.0.SP1</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>jakarta.ws.rs</groupId>
-			<artifactId>jakarta.ws.rs-api</artifactId>
-			<version>2.1.6</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>javax.el-api</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>javax.el</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -91,7 +58,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.4.8.Final</version>
+			<version>5.4.9.Final</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -107,36 +74,49 @@
 
 
 		<!--		arquillian-->
-<!--		<dependency>-->
-<!--			<groupId>org.jboss.shrinkwrap</groupId>-->
-<!--			<artifactId>shrinkwrap-api</artifactId>-->
-<!--			<version>1.2.6</version>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.jboss.arquillian.junit</groupId>-->
-<!--			<artifactId>arquillian-junit-core</artifactId>-->
-<!--			<version>1.4.1.Final</version>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.jboss.arquillian.container</groupId>-->
-<!--			<artifactId>arquillian-container-test-api</artifactId>-->
-<!--			<version>1.5.0.Final</version>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.jboss.arquillian.junit</groupId>-->
-<!--			<artifactId>arquillian-junit-container</artifactId>-->
-<!--			<version>1.5.0.Final</version>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.jboss.arquillian.container</groupId>-->
-<!--			<artifactId>arquillian-glassfish-embedded-3.1</artifactId>-->
-<!--			<version>1.0.2</version>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.jboss.arquillian</groupId>
+			<artifactId>arquillian-bom</artifactId>
+			<version>1.5.0.Final</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.main.extras</groupId>
+			<artifactId>glassfish-embedded-all</artifactId>
+			<version>5.1.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.shrinkwrap</groupId>
+			<artifactId>shrinkwrap-api</artifactId>
+			<version>1.2.6</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-core</artifactId>
+			<version>1.4.1.Final</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.container</groupId>
+			<artifactId>arquillian-container-test-api</artifactId>
+			<version>1.5.0.Final</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<version>1.5.0.Final</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.container</groupId>
+			<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+			<version>1.0.2</version>
+			<scope>test</scope>
+		</dependency>
 
 
 		<!--		junit-jupiter-->

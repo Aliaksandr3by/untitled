@@ -1,4 +1,4 @@
-package by.example.app.infrastructure.config;
+package com.example.untitled.infrastructure.config;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

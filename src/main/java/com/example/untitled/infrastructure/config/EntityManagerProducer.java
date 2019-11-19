@@ -1,4 +1,4 @@
-package by.example.app.infrastructure.config;
+package com.example.untitled.infrastructure.config;
 
 import org.apache.logging.log4j.Logger;
 

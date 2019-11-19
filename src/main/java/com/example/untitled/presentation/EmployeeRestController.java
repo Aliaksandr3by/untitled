@@ -1,7 +1,7 @@
-package by.example.app.presentation;
+package com.example.untitled.presentation;
 
-import by.example.app.domain.Employee;
-import by.example.app.infrastructure.persistence.EmployeeBeanLocalRepository;
+import com.example.untitled.domain.Employee;
+import com.example.untitled.infrastructure.persistence.EmployeeBeanLocalRepository;
 import org.apache.logging.log4j.Logger;
 import org.postgresql.util.PSQLException;
 
@@ -24,7 +24,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,6 +39,7 @@ public class EmployeeRestController {
 
 	@Inject
 	ValidatorFactory validatorFactory;
+
 	@Inject
 	Validator validator;
 
@@ -65,7 +65,7 @@ public class EmployeeRestController {
 		logger.info("@preDestroy EmployeeRestController");
 	}
 
-	ExecutorService executor = Executors.newFixedThreadPool(10);
+	private ExecutorService executor = Executors.newFixedThreadPool(10);
 
 	@GET
 	@Path("suspended")
@@ -138,28 +138,30 @@ public class EmployeeRestController {
 	@POST
 	public Response createEmployee(final Employee employee) {
 
+		Set<ConstraintViolation<Employee>> cv;
+
 		try {
 
 			logger.info("Initiated insertEmployee method.");
 
-			employeeBean.add(employee);
+			cv = validator.validate(employee);
 
-			return Response.status(Response.Status.CREATED).build();
+			if (cv.isEmpty()) {
+				employeeBean.add(employee);
+				return Response.status(Response.Status.CREATED).build();
+			} else {
+				ConstraintViolation<Employee> tmp = cv.stream().findFirst().get();
+				return Response.status(Response.Status.BAD_REQUEST).entity(tmp.getMessage()).build();
+			}
 
 		} catch (javax.ejb.EJBException e) {
 
 			logger.error(e.getCause().getMessage(), e.getCause());
 
-			if(e.getCause() instanceof javax.persistence.PersistenceException){
+			if (e.getCause() instanceof javax.persistence.PersistenceException) {
 
-				PSQLException ex = (PSQLException)e.getCause().getCause().getCause();
-				return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage().toString()).build();
-			}
-
-			Set<ConstraintViolation<Employee>> cv = validator.validate(employee);
-
-			if (Objects.nonNull(cv)){
-				return Response.status(Response.Status.BAD_REQUEST).entity(cv).build();
+				PSQLException ex = (PSQLException) e.getCause().getCause().getCause();
+				return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
 			}
 
 			throw e;
@@ -233,7 +235,7 @@ public class EmployeeRestController {
 
 	@GET
 	@Path("context")
-	public Response context(@Context HttpServletRequest request, @Context HttpServletResponse response) throws ServletException, IOException {
+	public Response context(@Context HttpServletRequest request, @Context HttpServletResponse response) {
 
 		logger.info(request);
 		logger.info(response);

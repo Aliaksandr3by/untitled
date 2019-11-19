@@ -1,6 +1,6 @@
-package by.example.app.infrastructure.persistence;
+package com.example.untitled.infrastructure.persistence;
 
-import by.example.app.domain.Employee;
+import com.example.untitled.domain.Employee;
 
 import javax.ejb.Local;
 import java.util.List;

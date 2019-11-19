@@ -1,4 +1,4 @@
-package by.example.app.domain;
+package com.example.untitled.domain;
 
 import org.hibernate.annotations.Type;
 
@@ -7,7 +7,6 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Optional;
 
 @Entity
 @Table(name = "employee", schema = "dbo")
@@ -118,7 +117,7 @@ public class Employee implements Serializable {
 		return gender;
 	}
 
-	@PastOrPresent(message = "{PastOrPresent}")
+	@PastOrPresent(message = "must be past time or present")
 	@Column(name = "date_of_birth", nullable = false, columnDefinition = "DATE")
 	public LocalDate getDateOfBirth() {
 		return dateOfBirth;

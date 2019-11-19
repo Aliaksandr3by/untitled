@@ -1,30 +1,23 @@
-package by.example.app.presentation;
+package com.example.untitled.presentation;
 
-import by.example.app.domain.Employee;
-import by.example.app.domain.Gender;
-import by.example.app.infrastructure.persistence.EmployeeBeanLocalRepository;
-import org.jboss.weld.context.ejb.Ejb;
-import org.jboss.weld.junit5.auto.WeldJunit5AutoExtension;
+import com.example.untitled.domain.Employee;
+import com.example.untitled.domain.Gender;
+import com.example.untitled.infrastructure.persistence.EmployeeBeanLocalRepository;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 
+import javax.ejb.EJB;
 import javax.ejb.embeddable.EJBContainer;
-import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import java.io.File;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-@ExtendWith(WeldJunit5AutoExtension.class)
+//@ExtendWith(Arquillian.class)
 public class EmployeeRestControllerTests {
 
 	private Employee employee = new Employee(
@@ -36,8 +29,10 @@ public class EmployeeRestControllerTests {
 			LocalDate.of(2019, 11, 14)
 	);
 
-	@Ejb
+	@EJB
 	private EmployeeBeanLocalRepository employeeBean;
+
+	private EJBContainer ejbContainer;
 
 	private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
@@ -53,7 +48,6 @@ public class EmployeeRestControllerTests {
 
 	@AfterEach
 	void tearDownAfterEach() {
-
 	}
 
 	@AfterAll

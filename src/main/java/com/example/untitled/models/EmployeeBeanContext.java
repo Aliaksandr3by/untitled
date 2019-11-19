@@ -1,13 +1,12 @@
-package by.example.app.models;
+package com.example.untitled.models;
 
-import by.example.app.domain.Employee;
-import by.example.app.exeptions.NotFoundException;
-import by.example.app.infrastructure.persistence.EmployeeBeanLocalRepository;
+import com.example.untitled.domain.Employee;
+import com.example.untitled.exeptions.NotFoundException;
+import com.example.untitled.infrastructure.persistence.EmployeeBeanLocalRepository;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Objects;
@@ -40,12 +39,8 @@ public class EmployeeBeanContext implements EmployeeBeanLocalRepository {
 
 	@Override
 	public Employee add(Employee user) {
-		try {
-			entityManager.persist(user);
-			return user;
-		} catch (PersistenceException e) {
-			throw e;
-		}
+		entityManager.persist(user);
+		return user;
 	}
 
 	@Override
@@ -53,9 +48,7 @@ public class EmployeeBeanContext implements EmployeeBeanLocalRepository {
 
 		Employee employee = findById(user.getEmployeeId());
 
-		Employee employeePatched = entityManager.merge(employee.patcherEmployee(user));
-
-		return employeePatched;
+		return entityManager.merge(employee.patcherEmployee(user));
 	}
 
 	@Override

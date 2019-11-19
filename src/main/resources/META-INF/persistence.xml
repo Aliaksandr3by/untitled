@@ -11,7 +11,7 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>jdbc/poolpostgre</jta-data-source>
 
-		<class>by.example.app.domain.Employee</class>
+		<class>com.example.untitled.domain.Employee</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
