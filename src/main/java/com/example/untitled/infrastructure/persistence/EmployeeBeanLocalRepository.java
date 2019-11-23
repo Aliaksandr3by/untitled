@@ -11,6 +11,8 @@ public interface EmployeeBeanLocalRepository {
 
 	Employee add(Employee user);
 
+	List<Employee> getAll(Long start, Long from);
+
 	Employee findById(long id);
 
 	Employee update(Employee user);

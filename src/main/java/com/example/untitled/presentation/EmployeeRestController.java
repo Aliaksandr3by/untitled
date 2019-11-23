@@ -10,7 +10,6 @@ import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
@@ -22,7 +21,6 @@ import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -72,13 +70,16 @@ public class EmployeeRestController {
 	public void getEmployees(@Suspended final AsyncResponse ar) {
 
 		executor.submit(() -> {
-			List<Employee> response = employeeBean.getAll();
+			List<Employee> peoples = employeeBean.getAll();
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			ar.resume(response);
+
+			logger.info(peoples.toString());
+
+			ar.resume(peoples);
 		});
 
 	}
@@ -87,9 +88,15 @@ public class EmployeeRestController {
 	public Response getEmployees() {
 		try {
 
-			logger.info("Initiated getEmployees method");
-
 			List<Employee> peoples = employeeBean.getAll();
+
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			logger.info(peoples.toString());
 
 			return Response.status(Response.Status.OK).entity(peoples).build();
 
@@ -101,12 +108,14 @@ public class EmployeeRestController {
 
 	@GET
 	@Path("selected")
-	public Response getSelected(@QueryParam("start") int from, @QueryParam("page") int page) {
+	public Response getSelected(
+			@QueryParam("start") Long from,
+			@QueryParam("page") Long page) {
 		try {
 
 			logger.info("Initiated getSelected method");
 
-			List<Employee> peoples = employeeBean.getAll();
+			List<Employee> peoples = employeeBean.getAll(from, page);
 
 			return Response.status(Response.Status.OK).entity(peoples).build();
 
@@ -142,16 +151,21 @@ public class EmployeeRestController {
 
 		try {
 
-			logger.info("Initiated insertEmployee method.");
-
 			cv = validator.validate(employee);
 
 			if (cv.isEmpty()) {
+
 				employeeBean.add(employee);
+
+				logger.info(employee.toString());
+
 				return Response.status(Response.Status.CREATED).build();
+
 			} else {
+
 				ConstraintViolation<Employee> tmp = cv.stream().findFirst().get();
 				return Response.status(Response.Status.BAD_REQUEST).entity(tmp.getMessage()).build();
+
 			}
 
 		} catch (javax.ejb.EJBException e) {

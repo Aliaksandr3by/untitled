@@ -1,9 +1,16 @@
 package com.example.untitled.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -11,7 +18,14 @@ import java.util.Objects;
 @Entity
 @Table(name = "employee", schema = "dbo")
 @Access(AccessType.PROPERTY)
-@NamedQuery(name = "Employee.getAll", query = "SELECT u from Employee u order by u.employeeId")
+@NamedQueries({
+		@NamedQuery(
+				name = "Employee.getAll",
+				query = "SELECT u from Employee u order by u.employeeId"),
+		@NamedQuery(
+				name = "Employee.getAllStartFrom",
+				query = "SELECT u from Employee u where u.employeeId BETWEEN :startId AND :fromId order by u.employeeId")
+})
 public class Employee implements Serializable {
 
 	//TODO delete
@@ -119,6 +133,9 @@ public class Employee implements Serializable {
 
 	@PastOrPresent(message = "must be past time or present")
 	@Column(name = "date_of_birth", nullable = false, columnDefinition = "DATE")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
 	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
 	}
@@ -147,6 +164,7 @@ public class Employee implements Serializable {
 		this.departmentId = department;
 	}
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}

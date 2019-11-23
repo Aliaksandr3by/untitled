@@ -17,14 +17,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/app/api/employees/",
+									"raw": "http://localhost:8080/untitled/api/employees/",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"app",
+										"untitled",
 										"api",
 										"employees",
 										""
@@ -39,25 +39,26 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/app/api/employees?start=10&page=20",
+									"raw": "http://localhost:8080/untitled/api/employees/selected?start=2&page=4",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"app",
+										"untitled",
 										"api",
-										"employees"
+										"employees",
+										"selected"
 									],
 									"query": [
 										{
 											"key": "start",
-											"value": "10"
+											"value": "2"
 										},
 										{
 											"key": "page",
-											"value": "20"
+											"value": "4"
 										}
 									]
 								}
@@ -92,14 +93,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/app/api/employees/suspended",
+									"raw": "http://localhost:8080/untitled/api/employees/suspended",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"app",
+										"untitled",
 										"api",
 										"employees",
 										"suspended"
@@ -129,7 +130,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "    {\r\n        \"dateOfBirth\": \"2019-11-15\",\r\n        \"departmentId\": 2,\r\n        \"firstName\": \"rrrr\",\r\n        \"gender\": \"FEMALE\",\r\n        \"jobTitle\": \"wewe\",\r\n        \"lastName\": \"qweqe\"\r\n    }",
+									"raw": "    {\r\n        \"dateOfBirth\": \"20-11-2019\",\r\n        \"departmentId\": 2,\r\n        \"firstName\": \"rrrr\",\r\n        \"gender\": \"FEMALE\",\r\n        \"jobTitle\": \"wewe\",\r\n        \"lastName\": \"qweqe\"\r\n    }",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -137,14 +138,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/app/api/employees",
+									"raw": "http://localhost:8080/untitled/api/employees",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"app",
+										"untitled",
 										"api",
 										"employees"
 									]
@@ -165,14 +166,14 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/app/api/employees/22",
+									"raw": "http://localhost:8080/untitled/api/employees/22",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"app",
+										"untitled",
 										"api",
 										"employees",
 										"22"
@@ -210,14 +211,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/app/api/employees/",
+									"raw": "http://localhost:8080/untitled/api/employees/",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
-										"app",
+										"untitled",
 										"api",
 										"employees",
 										""

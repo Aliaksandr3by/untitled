@@ -1,0 +1,63 @@
+domain.bat
+wildfly-18.0.1.Final
+
+Driver Name :
+	postgresql
+Driver Module Name: 
+	org.postgresql
+Driver Class Name <!-- for non-xa datasource --> 
+	org.postgresql.Driver
+xa-datasource-class <!-- for xa datasource -->
+	org.postgresql.xa.PGXADataSource
+
+
+Name
+	PostgresDS
+JNDI Name
+	java:/PostgresDS
+Connection URL
+	jdbc:postgresql://localhost:5433/employeedb
+Driver Name
+	postgresql-42.2.8.jar
+User Name
+	guest
+Password
+	guest
+
+C:\opt\wildfly-18.0.1.Final\standalone\configuration\standalone.xml
+
+        <subsystem xmlns="urn:jboss:domain:datasources:5.0">
+            <datasources>
+                <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
+                    <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE</connection-url>
+                    <driver>h2</driver>
+                    <security>
+                        <user-name>sa</user-name>
+                        <password>sa</password>
+                    </security>
+                </datasource>
+                <datasource jndi-name="java:/PostgresDS" pool-name="PostgresDS">
+                    <connection-url>jdbc:postgresql://localhost:5433/employeedb</connection-url>
+                    <driver-class>org.postgresql.Driver</driver-class>
+                    <driver>postgresql</driver>
+                    <security>
+                        <user-name>guest</user-name>
+                        <password>guest</password>
+                    </security>
+                    <validation>
+                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
+                        <background-validation>true</background-validation>
+                        <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>
+                    </validation>
+                </datasource>
+                <drivers>
+                    <driver name="h2" module="com.h2database.h2">
+                        <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+                    </driver>
+                    <driver name="postgresql" module="org.postgresql">
+                        <driver-class>org.postgresql.Driver</driver-class>
+                        <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
+                    </driver>
+                </drivers>
+            </datasources>
+        </subsystem>
