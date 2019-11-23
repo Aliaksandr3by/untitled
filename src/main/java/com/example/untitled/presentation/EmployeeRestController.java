@@ -70,7 +70,9 @@ public class EmployeeRestController {
 	public void getEmployees(@Suspended final AsyncResponse ar) {
 
 		executor.submit(() -> {
+
 			List<Employee> peoples = employeeBean.getAll();
+
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
@@ -89,12 +91,6 @@ public class EmployeeRestController {
 		try {
 
 			List<Employee> peoples = employeeBean.getAll();
-
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 
 			logger.info(peoples.toString());
 

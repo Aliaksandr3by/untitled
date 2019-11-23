@@ -19,12 +19,10 @@ import java.util.Objects;
 @Table(name = "employee", schema = "dbo")
 @Access(AccessType.PROPERTY)
 @NamedQueries({
-		@NamedQuery(
-				name = "Employee.getAll",
+		@NamedQuery(name = "getAll",
 				query = "SELECT u from Employee u order by u.employeeId"),
-		@NamedQuery(
-				name = "Employee.getAllStartFrom",
-				query = "SELECT u from Employee u where u.employeeId BETWEEN :startId AND :fromId order by u.employeeId")
+		@NamedQuery(name = "getAllStartFrom",
+				query = "SELECT u from Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
 })
 public class Employee implements Serializable {
 

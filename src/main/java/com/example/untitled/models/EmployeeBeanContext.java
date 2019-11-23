@@ -27,16 +27,17 @@ public class EmployeeBeanContext implements EmployeeBeanLocalRepository {
 
 	@Override
 	public List<Employee> getAll() {
-		final TypedQuery<Employee> namedQuery = entityManager.createNamedQuery("Employee.getAll", Employee.class);
+		final TypedQuery<Employee> namedQuery = entityManager.createNamedQuery("getAll", Employee.class);
 		return namedQuery.getResultList();
 	}
 
 	@Override
 	public List<Employee> getAll(Long start, Long from) {
-		final TypedQuery<Employee> namedQuery = entityManager
-				.createNamedQuery("Employee.getAllStartFrom", Employee.class)
-				.setParameter("startId", start)
-				.setParameter("fromId",  from);
+		final TypedQuery<Employee> namedQuery =
+				entityManager.createNamedQuery("getAllStartFrom", Employee.class)
+						.setParameter("startId", start)
+						.setParameter("fromId", from);
+
 		return namedQuery.getResultList();
 	}
 
