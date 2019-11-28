@@ -17,6 +17,8 @@ public interface EmployeeBeanLocalRepository {
 
 	Employee update(Employee user);
 
+	Employee patch(Employee user);
+
 	void remove(long id);
 
 	List<Employee> getAll();

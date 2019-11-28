@@ -18,12 +18,16 @@ import java.util.Objects;
 @Entity
 @Table(name = "employee", schema = "dbo")
 @Access(AccessType.PROPERTY)
-@NamedQueries({
-		@NamedQuery(name = "getAll",
-				query = "SELECT u from Employee u order by u.employeeId"),
-		@NamedQuery(name = "getAllStartFrom",
-				query = "SELECT u from Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
-})
+@NamedQuery(name = "getAll",
+		query = "SELECT u from Employee u order by u.employeeId")
+@NamedQuery(name = "getAllStartFrom",
+		query = "SELECT u from Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
+//@NamedQueries({
+//		@NamedQuery(name = "getAll",
+//				query = "SELECT u from Employee u order by u.employeeId"),
+//		@NamedQuery(name = "getAllStartFrom",
+//				query = "SELECT u from Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
+//})
 public class Employee implements Serializable {
 
 	//TODO delete
@@ -131,7 +135,7 @@ public class Employee implements Serializable {
 
 	@PastOrPresent(message = "must be past time or present")
 	@Column(name = "date_of_birth", nullable = false, columnDefinition = "DATE")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	@JsonSerialize(using = LocalDateSerializer.class)
 	public LocalDate getDateOfBirth() {
@@ -162,7 +166,7 @@ public class Employee implements Serializable {
 		this.departmentId = department;
 	}
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}

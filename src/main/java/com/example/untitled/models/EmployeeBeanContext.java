@@ -62,6 +62,14 @@ public class EmployeeBeanContext implements EmployeeBeanLocalRepository {
 	}
 
 	@Override
+	public Employee patch(Employee user) {
+
+		Employee employee = findById(user.getEmployeeId());
+
+		return entityManager.merge(employee.patcherEmployee(user));
+	}
+
+	@Override
 	public void remove(long id) {
 
 		Employee employee = findById(id);

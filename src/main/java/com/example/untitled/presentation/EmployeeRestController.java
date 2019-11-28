@@ -16,19 +16,23 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.ws.rs.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.CompletionCallback;
+import javax.ws.rs.container.ConnectionCallback;
 import javax.ws.rs.container.Suspended;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
+import javax.ws.rs.ext.Providers;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Path("employees")
 @RequestScoped
-@Produces({MediaType.APPLICATION_JSON})
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 public class EmployeeRestController {
 
@@ -43,6 +47,19 @@ public class EmployeeRestController {
 
 	@EJB
 	private EmployeeBeanLocalRepository employeeBean;
+
+	@Context
+	Application app;
+	@Context
+	UriInfo uri;
+	@Context
+	HttpHeaders headers;
+	@Context
+	Request request;
+	@Context
+	SecurityContext security;
+	@Context
+	Providers providers;
 
 	@PostConstruct
 	private void postConstruct() {
@@ -69,17 +86,25 @@ public class EmployeeRestController {
 	@Path("suspended")
 	public void getEmployees(@Suspended final AsyncResponse ar) {
 
+		ar.register((CompletionCallback) ((Throwable ex) -> {
+			logger.info("onComplete");
+			if (Objects.nonNull(ex)) logger.error(ex.getMessage(), ex);
+		}));
+
+		ar.register((ConnectionCallback) ((AsyncResponse ar1) -> {
+			logger.info("onDisconnect");
+			if (ar1.isCancelled()) logger.info("isCancelled");
+		}));
+
 		executor.submit(() -> {
 
 			List<Employee> peoples = employeeBean.getAll();
 
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(4000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
-			logger.info(peoples.toString());
 
 			ar.resume(peoples);
 		});
@@ -146,7 +171,7 @@ public class EmployeeRestController {
 		Set<ConstraintViolation<Employee>> cv;
 
 		try {
-
+			employee.setEmployeeId(null);
 			cv = validator.validate(employee);
 
 			if (cv.isEmpty()) {
@@ -183,15 +208,14 @@ public class EmployeeRestController {
 
 	}
 
-	@PUT
-	@Path("{id}")
+	@PATCH
 	public Response putEmployeeById(final Employee employee) {
 
 		try {
 
 			logger.info("Initiated putEmployeeById method.");
 
-			employeeBean.update(employee);
+			employeeBean.patch(employee);
 
 			return Response.status(Response.Status.CREATED).build();
 
@@ -202,7 +226,7 @@ public class EmployeeRestController {
 
 	}
 
-	@PATCH
+	@PUT
 	public Response patchPartEmployeeById(final Employee employee) {
 
 		try {
@@ -239,6 +263,11 @@ public class EmployeeRestController {
 
 	}
 
+	@HEAD
+	public void headOrder() {
+		logger.info("headOrder");
+	}
+
 	public static void main(String[] args) {
 
 	}
@@ -252,3 +281,5 @@ public class EmployeeRestController {
 		return Response.ok().build();
 	}
 }
+
+

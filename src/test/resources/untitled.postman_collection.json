@@ -15,7 +15,13 @@
 							"name": "Ejb/all",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;charset=utf-8",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "http://localhost:8080/untitled/api/employees/",
 									"protocol": "http",
@@ -39,7 +45,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/untitled/api/employees/selected?start=2&page=4",
+									"raw": "http://localhost:8080/untitled/api/employees/selected?Accept=application/json;charset=utf-8&start=2&page=4",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -52,6 +58,10 @@
 										"selected"
 									],
 									"query": [
+										{
+											"key": "Accept",
+											"value": "application/json;charset=utf-8"
+										},
 										{
 											"key": "start",
 											"value": "2"
@@ -71,7 +81,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/app/api/employees/1",
+									"raw": "http://localhost:8080/app/api/employees/1?Accept=application/json;charset=utf-8",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -82,6 +92,12 @@
 										"api",
 										"employees",
 										"1"
+									],
+									"query": [
+										{
+											"key": "Accept",
+											"value": "application/json;charset=utf-8"
+										}
 									]
 								}
 							},
@@ -93,7 +109,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/untitled/api/employees/suspended",
+									"raw": "http://localhost:8080/untitled/api/employees/suspended?Accept=application/json;charset=utf-8",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -104,6 +120,16 @@
 										"api",
 										"employees",
 										"suspended"
+									],
+									"query": [
+										{
+											"key": "Accept",
+											"value": "application/json;charset=utf-8"
+										},
+										{
+											"key": "",
+											"value": ""
+										}
 									]
 								}
 							},
@@ -125,12 +151,17 @@
 										"key": "Content-Type",
 										"name": "Content-Type",
 										"type": "text",
-										"value": "application/json"
+										"value": "application/json;charset=utf-8"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json;charset=utf-8",
+										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "    {\r\n        \"dateOfBirth\": \"20-11-2019\",\r\n        \"departmentId\": 2,\r\n        \"firstName\": \"rrrr\",\r\n        \"gender\": \"FEMALE\",\r\n        \"jobTitle\": \"wewe\",\r\n        \"lastName\": \"qweqe\"\r\n    }",
+									"raw": "    {\r\n        \"dateOfBirth\": \"2019-11-28\",\r\n        \"departmentId\": 2,\r\n        \"firstName\": \"rrrr\",\r\n        \"gender\": \"FEMALE\",\r\n        \"jobTitle\": \"wewe\",\r\n        \"lastName\": \"qweqe\"\r\n    }",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -166,7 +197,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/untitled/api/employees/22",
+									"raw": "http://localhost:8080/untitled/api/employees/22?Accept=application/json;charset=utf-8",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -177,6 +208,12 @@
 										"api",
 										"employees",
 										"22"
+									],
+									"query": [
+										{
+											"key": "Accept",
+											"value": "application/json;charset=utf-8"
+										}
 									]
 								}
 							},
@@ -187,23 +224,28 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "patch",
+					"name": "put",
 					"item": [
 						{
 							"name": "patcher",
 							"request": {
-								"method": "PATCH",
+								"method": "PUT",
 								"header": [
 									{
 										"key": "Content-Type",
 										"name": "Content-Type",
 										"type": "text",
-										"value": "application/json"
+										"value": "application/json;charset=utf-8"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json;charset=utf-8",
+										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "    {\r\n        \"employeeId\": 2,\r\n       \r\n        \"departmentId\": 1,\r\n        \"firstName\": \"1\",\r\n        \"gender\": \"FEMALE\",\r\n        \"jobTitle\": \"1\",\r\n        \"lastName\": \"1\"\r\n    }",
+									"raw": "    {\r\n        \"employeeId\": 16,\r\n       \r\n        \"departmentId\": 1,\r\n        \"firstName\": \"1\",\r\n        \"gender\": \"FEMALE\",\r\n        \"jobTitle\": \"1\",\r\n        \"lastName\": \"1\"\r\n    }",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -226,6 +268,28 @@
 								}
 							},
 							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9612ebca-e12a-468f-b7ea-4156703b0ec5",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "34038407-160a-412e-bf3c-0eba3c1a1163",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
 						}
 					],
 					"protocolProfileBehavior": {},
