@@ -25,9 +25,9 @@
 					  value="org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"/>
 
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>
-			<!--			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
 
-			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			<!--			<property name="hibernate.hbm2ddl.auto" value="update"/>-->
 			<property name="hibernate.jdbc.time_zone" value="UTC"/>
 			<property name="hibernate.show_sql" value="true"/>
 			<property name="hibernate.format_sql" value="true"/>

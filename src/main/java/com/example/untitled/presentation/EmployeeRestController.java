@@ -115,11 +115,15 @@ public class EmployeeRestController {
 	public Response getEmployees() {
 		try {
 
-			List<Employee> peoples = employeeBean.getAll();
+			logger.info("getEmployees()");
 
-			logger.info(peoples.toString());
+			List<Employee> employee = employeeBean.getAll();
 
-			return Response.status(Response.Status.OK).entity(peoples).build();
+			if (!employee.isEmpty()){
+				return Response.ok(employee).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
 
 		} catch (Throwable e) {
 			logger.error(e.getCause().getMessage(), e);
@@ -136,9 +140,13 @@ public class EmployeeRestController {
 
 			logger.info("Initiated getSelected method");
 
-			List<Employee> peoples = employeeBean.getAll(from, page);
+			List<Employee> employee = employeeBean.getAll(from, page);
 
-			return Response.status(Response.Status.OK).entity(peoples).build();
+			if (Objects.nonNull(employee)){
+				return Response.ok(employee).status(Response.Status.OK).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
 
 		} catch (Throwable e) {
 			logger.error(e.getCause().getMessage(), e);
@@ -155,9 +163,11 @@ public class EmployeeRestController {
 
 			Employee employee = employeeBean.findById(id);
 
-			logger.info(employee.toString());
-
-			return Response.ok(employee).status(Response.Status.OK).build();
+			if (Objects.nonNull(employee)){
+				return Response.ok(employee).status(Response.Status.OK).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
 
 		} catch (Throwable e) {
 			logger.error(e.getCause().getMessage(), e.getCause());

@@ -9,141 +9,10 @@
 			"name": "EmployeeRestController",
 			"item": [
 				{
-					"name": "get",
-					"item": [
-						{
-							"name": "Ejb/all",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json;charset=utf-8",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://localhost:8080/untitled/api/employees/",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"untitled",
-										"api",
-										"employees",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Ejb/all-selected",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/untitled/api/employees/selected?Accept=application/json;charset=utf-8&start=2&page=4",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"untitled",
-										"api",
-										"employees",
-										"selected"
-									],
-									"query": [
-										{
-											"key": "Accept",
-											"value": "application/json;charset=utf-8"
-										},
-										{
-											"key": "start",
-											"value": "2"
-										},
-										{
-											"key": "page",
-											"value": "4"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Ejb/{3}",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/app/api/employees/1?Accept=application/json;charset=utf-8",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"app",
-										"api",
-										"employees",
-										"1"
-									],
-									"query": [
-										{
-											"key": "Accept",
-											"value": "application/json;charset=utf-8"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Ejb/all/suspended",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/untitled/api/employees/suspended?Accept=application/json;charset=utf-8",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"untitled",
-										"api",
-										"employees",
-										"suspended"
-									],
-									"query": [
-										{
-											"key": "Accept",
-											"value": "application/json;charset=utf-8"
-										},
-										{
-											"key": "",
-											"value": ""
-										}
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
-				},
-				{
 					"name": "post",
 					"item": [
 						{
-							"name": "Ejb",
+							"name": "to post single element",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -169,51 +38,15 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/untitled/api/employees",
-									"protocol": "http",
+									"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
-										"untitled",
-										"api",
-										"employees"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "delete",
-					"item": [
-						{
-							"name": "Ejb/{3}",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/untitled/api/employees/22?Accept=application/json;charset=utf-8",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"untitled",
-										"api",
-										"employees",
-										"22"
-									],
-									"query": [
-										{
-											"key": "Accept",
-											"value": "application/json;charset=utf-8"
-										}
+										"{{ProjectName}}",
+										"{{api}}",
+										"{{controller}}",
+										""
 									]
 								}
 							},
@@ -227,25 +60,25 @@
 					"name": "put",
 					"item": [
 						{
-							"name": "patcher",
+							"name": "patch single element",
 							"request": {
 								"method": "PUT",
 								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;charset=utf-8",
+										"type": "text"
+									},
 									{
 										"key": "Content-Type",
 										"name": "Content-Type",
 										"type": "text",
 										"value": "application/json;charset=utf-8"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json;charset=utf-8",
-										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "    {\r\n        \"employeeId\": 16,\r\n       \r\n        \"departmentId\": 1,\r\n        \"firstName\": \"1\",\r\n        \"gender\": \"FEMALE\",\r\n        \"jobTitle\": \"1\",\r\n        \"lastName\": \"1\"\r\n    }",
+									"raw": "    {\r\n        \"employeeId\": 1,\r\n       \r\n        \"departmentId\": 1,\r\n        \"firstName\": \"1\",\r\n        \"gender\": \"FEMALE\",\r\n        \"jobTitle\": \"1\",\r\n        \"lastName\": \"1\"\r\n    }",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -253,16 +86,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/untitled/api/employees/",
-									"protocol": "http",
+									"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
-										"untitled",
-										"api",
-										"employees",
+										"{{ProjectName}}",
+										"{{api}}",
+										"{{controller}}",
 										""
 									]
 								}
@@ -290,6 +121,160 @@
 									""
 								]
 							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "get",
+					"item": [
+						{
+							"name": "get all",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;charset=utf-8",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{ProjectName}}",
+										"{{api}}",
+										"{{controller}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "all-selected",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;charset=utf-8",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/selected?start=1&page=4",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{ProjectName}}",
+										"{{api}}",
+										"{{controller}}",
+										"selected"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "1"
+										},
+										{
+											"key": "page",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "to get single element",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;charset=utf-8",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{ProjectName}}",
+										"{{api}}",
+										"{{controller}}",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "all suspended",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;charset=utf-8",
+										"equals": true
+									}
+								],
+								"url": {
+									"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/suspended",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{ProjectName}}",
+										"{{api}}",
+										"{{controller}}",
+										"suspended"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "delete",
+					"item": [
+						{
+							"name": "delete single element",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json;charset=utf-8",
+										"equals": true
+									}
+								],
+								"url": {
+									"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{ProjectName}}",
+										"{{api}}",
+										"{{controller}}",
+										"1"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
