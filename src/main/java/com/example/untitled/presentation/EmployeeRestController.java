@@ -1,6 +1,7 @@
 package com.example.untitled.presentation;
 
 import com.example.untitled.domain.Employee;
+import com.example.untitled.exeptions.NotFoundException;
 import com.example.untitled.infrastructure.persistence.EmployeeBeanLocalRepository;
 import org.apache.logging.log4j.Logger;
 import org.postgresql.util.PSQLException;
@@ -119,7 +120,7 @@ public class EmployeeRestController {
 
 			List<Employee> employee = employeeBean.getAll();
 
-			if (!employee.isEmpty()){
+			if (!employee.isEmpty()) {
 				return Response.ok(employee).build();
 			} else {
 				return Response.status(Response.Status.NOT_FOUND).build();
@@ -133,16 +134,14 @@ public class EmployeeRestController {
 
 	@GET
 	@Path("selected")
-	public Response getSelected(
-			@QueryParam("start") Long from,
-			@QueryParam("page") Long page) {
+	public Response getSelected(@QueryParam("start") Long from, @QueryParam("page") Long page) {
 		try {
 
 			logger.info("Initiated getSelected method");
 
 			List<Employee> employee = employeeBean.getAll(from, page);
 
-			if (Objects.nonNull(employee)){
+			if (Objects.nonNull(employee)) {
 				return Response.ok(employee).status(Response.Status.OK).build();
 			} else {
 				return Response.status(Response.Status.NOT_FOUND).build();
@@ -163,14 +162,15 @@ public class EmployeeRestController {
 
 			Employee employee = employeeBean.findById(id);
 
-			if (Objects.nonNull(employee)){
+			if (Objects.nonNull(employee)) {
 				return Response.ok(employee).status(Response.Status.OK).build();
 			} else {
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException("Item was not found");
+				//return Response.status(Response.Status.NOT_FOUND).build();
 			}
 
-		} catch (Throwable e) {
-			logger.error(e.getCause().getMessage(), e.getCause());
+		} catch (NotFoundException e) {
+			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}
