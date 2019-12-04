@@ -17,24 +17,26 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.ws.rs.*;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.CompletionCallback;
 import javax.ws.rs.container.ConnectionCallback;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.*;
 import javax.ws.rs.ext.Providers;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.locks.LockSupport;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Path("employees")
 @RequestScoped
-@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Produces({MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_JSON})
 public class EmployeeRestController {
 
 	@Inject
@@ -62,6 +64,8 @@ public class EmployeeRestController {
 	@Context
 	Providers providers;
 
+	private ExecutorService executor = Executors.newFixedThreadPool(10);
+
 	@PostConstruct
 	private void postConstruct() {
 		logger.info("@postConstruct EmployeeRestController");
@@ -79,9 +83,8 @@ public class EmployeeRestController {
 	private void preDestroy() {
 
 		logger.info("@preDestroy EmployeeRestController");
+		executor.shutdown();
 	}
-
-	private ExecutorService executor = Executors.newFixedThreadPool(10);
 
 	@GET
 	@Path("suspended")
@@ -102,7 +105,8 @@ public class EmployeeRestController {
 			List<Employee> peoples = employeeBean.getAll();
 
 			try {
-				Thread.sleep(4000);
+				TimeUnit.SECONDS.sleep(6);
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -218,8 +222,13 @@ public class EmployeeRestController {
 
 	}
 
+	/**
+	 *
+	 * @param employee
+	 * @return
+	 */
 	@PATCH
-	public Response putEmployeeById(final Employee employee) {
+	public Response patchEmployeeById(final Employee employee) {
 
 		try {
 
@@ -237,7 +246,7 @@ public class EmployeeRestController {
 	}
 
 	@PUT
-	public Response patchPartEmployeeById(final Employee employee) {
+	public Response putPartEmployeeById(final Employee employee) {
 
 		try {
 
@@ -278,18 +287,47 @@ public class EmployeeRestController {
 		logger.info("headOrder");
 	}
 
-	public static void main(String[] args) {
-
-	}
-
 	@GET
 	@Path("context")
-	public Response context(@Context HttpServletRequest request, @Context HttpServletResponse response) {
+	@Produces({MediaType.APPLICATION_JSON})
+	@Consumes({MediaType.APPLICATION_JSON})
+	public Response context(
+			@Context HttpServletRequest request,
+			@Context HttpServletResponse response) throws InterruptedException, ExecutionException {
 
-		logger.info(request);
-		logger.info(response);
-		return Response.ok().build();
+		Object lock = new Object();
+		// task будет ждать, пока его не оповестят через lock
+		Callable<String> task = () -> {
+			synchronized (lock) {
+				try {
+					System.out.println("wait " + Thread.currentThread().getName() + Thread.currentThread().getState());
+					lock.wait();
+				} catch (InterruptedException e) {
+					System.out.println("interrupted");
+				}
+			}
+			// После оповещения нас мы будем ждать, пока сможем взять лок
+			System.out.println("thread");
+			return "tttttttttttt";
+		};
+
+		FutureTask<String> future = new FutureTask<>(task);
+
+		Thread taskThread = new Thread(future);
+
+		taskThread.start();
+		// Ждём и после этого забираем себе лок, оповещаем и отдаём лок
+		Thread.currentThread().sleep(3000);
+
+		System.out.println("main " + Thread.currentThread().getName() + Thread.currentThread().getState());
+
+		synchronized (lock) {
+			lock.notify();
+		}
+
+		return Response.ok(future.get()).build();
 	}
+
 }
 
 

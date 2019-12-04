@@ -58,7 +58,11 @@ public class EmployeeBeanContext implements EmployeeBeanLocalRepository {
 
 		Employee employee = findById(user.getEmployeeId());
 
-		return entityManager.merge(employee.patcherEmployee(user));
+		if (Objects.nonNull(employee)) {
+			return entityManager.merge(user);
+		}
+
+		throw new NotFoundException("Item does not found");
 	}
 
 	@Override

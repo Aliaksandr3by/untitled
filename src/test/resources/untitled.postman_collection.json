@@ -53,6 +53,47 @@
 				{
 					"name": "patch single element",
 					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=utf-8",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json;charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"employeeId\": 1,\r\n        \"firstName\": \"уууууууууу\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{ProjectName}}",
+								"{{api}}",
+								"{{controller}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patch single element",
+					"request": {
 						"method": "PUT",
 						"header": [
 							{
@@ -69,7 +110,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "    {\r\n        \"employeeId\": 1,\r\n       \r\n        \"departmentId\": 1,\r\n        \"firstName\": \"1\",\r\n        \"gender\": \"FEMALE\",\r\n        \"jobTitle\": \"1\",\r\n        \"lastName\": \"1\"\r\n    }",
+							"raw": "    {\r\n        \"employeeId\": 1,\r\n        \"dateOfBirth\": \"2019-11-28\",\r\n        \"departmentId\": 2,\r\n        \"firstName\": \"ццццццц\",\r\n        \"gender\": \"FEMALE\",\r\n        \"jobTitle\": \"цццццццц\",\r\n        \"lastName\": \"ццццццц\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
