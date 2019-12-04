@@ -180,7 +180,7 @@
 					"response": []
 				},
 				{
-					"name": "all suspended",
+					"name": "suspended",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -233,6 +233,32 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "context",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json;charset=utf-8",
+						"equals": true
+					}
+				],
+				"url": {
+					"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/context",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{ProjectName}}",
+						"{{api}}",
+						"{{controller}}",
+						"context"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}

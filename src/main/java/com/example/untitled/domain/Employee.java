@@ -18,16 +18,16 @@ import java.util.Objects;
 @Entity
 @Table(name = "employee", schema = "dbo")
 @Access(AccessType.PROPERTY)
-@NamedQuery(name = "getAll",
-		query = "SELECT u from Employee u order by u.employeeId")
-@NamedQuery(name = "getAllStartFrom",
-		query = "SELECT u from Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
-//@NamedQueries({
-//		@NamedQuery(name = "getAll",
-//				query = "SELECT u from Employee u order by u.employeeId"),
-//		@NamedQuery(name = "getAllStartFrom",
-//				query = "SELECT u from Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
-//})
+//@NamedQuery(name = "getAll",
+//		query = "SELECT u from Employee u order by u.employeeId")
+//@NamedQuery(name = "getAllStartFrom",
+//		query = "SELECT u from Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
+@NamedQueries({
+		@NamedQuery(name = "getAll",
+				query = "SELECT u from Employee u order by u.employeeId"),
+		@NamedQuery(name = "getAllStartFrom",
+				query = "SELECT u from Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
+})
 public class Employee implements Serializable {
 
 	//TODO delete
