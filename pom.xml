@@ -453,7 +453,24 @@
 						<jboss-home>${jboss.home}</jboss-home>
 						<modules-path>${jboss.home}/modules</modules-path>
 						<port>${jboss.port}</port>
+						<java-opts>
+							<!--
+								ERROR: transport error 202: connect failed: Connection refused
+								ERROR: JDWP Transport dt_socket failed to initialize, TRANSPORT_INIT(510)
+								JDWP exit error AGENT_ERROR_TRANSPORT_INIT(197): No transports initialized [:732]
+							-->
+							<java-opt>
+								-Dprogram.name=standalone.bat
+							</java-opt>
+							<java-opt>
+								-agentlib:jdwp=transport=dt_socket,address=127.0.0.1:8787,suspend=y,server=n
+							</java-opt>
+							<java-opt>
+								-javaagent:C:\Users\shpak\.IntelliJIdea2019.3\system\captureAgent\debugger-agent.jar
+							</java-opt>
+						</java-opts>
 					</configuration>
+
 					<executions>
 
 					</executions>

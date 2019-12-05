@@ -23,20 +23,17 @@ import javax.ws.rs.container.ConnectionCallback;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.*;
 import javax.ws.rs.ext.Providers;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.locks.LockSupport;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Path("employees")
 @RequestScoped
 @Produces({MediaType.APPLICATION_JSON})
-@Consumes({MediaType.APPLICATION_JSON})
+@Consumes({"application/xml; qs=0.75", "application/json; qs=1"})
 public class EmployeeRestController {
 
 	@Inject
@@ -72,11 +69,6 @@ public class EmployeeRestController {
 	}
 
 	public EmployeeRestController() {
-	}
-
-	public EmployeeRestController(Logger logger, EmployeeBeanLocalRepository EmployeeBean) {
-		this.logger = logger;
-		this.employeeBean = EmployeeBean;
 	}
 
 	@PreDestroy
@@ -223,7 +215,6 @@ public class EmployeeRestController {
 	}
 
 	/**
-	 *
 	 * @param employee
 	 * @return
 	 */
@@ -296,28 +287,33 @@ public class EmployeeRestController {
 			@Context HttpServletResponse response) throws InterruptedException, ExecutionException {
 
 		Object lock = new Object();
-		// task будет ждать, пока его не оповестят через lock
-		Callable<String> task = () -> {
+		Lock reentrantLock = new ReentrantLock();
+
+		FutureTask<String> future = new FutureTask<>(() -> {
 			synchronized (lock) {
 				try {
+					reentrantLock.lock();
+					Thread.sleep(3000);
 					System.out.println("wait " + Thread.currentThread().getName() + Thread.currentThread().getState());
+					Thread.sleep(3000);
 					lock.wait();
 				} catch (InterruptedException e) {
 					System.out.println("interrupted");
 				}
 			}
-			// После оповещения нас мы будем ждать, пока сможем взять лок
 			System.out.println("thread");
-			return "tttttttttttt";
+			reentrantLock.unlock();
+			return "q1";
+		});
+
+		Executor executor = (runnable) -> {
+			new Thread(runnable).start();
 		};
 
-		FutureTask<String> future = new FutureTask<>(task);
+		executor.execute(future);
 
-		Thread taskThread = new Thread(future);
-
-		taskThread.start();
 		// Ждём и после этого забираем себе лок, оповещаем и отдаём лок
-		Thread.currentThread().sleep(3000);
+		Thread.sleep(3000);
 
 		System.out.println("main " + Thread.currentThread().getName() + Thread.currentThread().getState());
 
