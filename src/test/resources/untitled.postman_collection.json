@@ -206,7 +206,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/1",
+							"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/:id",
 							"host": [
 								"{{url}}"
 							],
@@ -214,7 +214,13 @@
 								"{{ProjectName}}",
 								"{{api}}",
 								"{{controller}}",
-								"1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -258,7 +264,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/1",
+							"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/:id",
 							"host": [
 								"{{url}}"
 							],
@@ -266,7 +272,13 @@
 								"{{ProjectName}}",
 								"{{api}}",
 								"{{controller}}",
-								"1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -276,7 +288,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "context",
+			"name": "test",
 			"request": {
 				"method": "GET",
 				"header": [

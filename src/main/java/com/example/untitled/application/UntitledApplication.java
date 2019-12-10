@@ -1,8 +1,8 @@
-package com.example.untitled.infrastructure.config;
+package com.example.untitled.application;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 @ApplicationPath("api")
-public class JaxRsConfig extends Application {
+public class UntitledApplication extends Application {
 }

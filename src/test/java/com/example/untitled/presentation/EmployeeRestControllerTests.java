@@ -2,9 +2,11 @@ package com.example.untitled.presentation;
 
 import com.example.untitled.domain.Employee;
 import com.example.untitled.domain.Gender;
+import com.example.untitled.infrastructure.filters.CorsFilter;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runners.model.InitializationError;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.naming.NamingException;
@@ -22,7 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 //@ExtendWith(Arquillian.class)
-public class EmployeeRestControllerTests {
+public class EmployeeRestControllerTests extends Arquillian {
 
 	private Employee employee = new Employee(
 			"fn" + Math.random() * 20,
@@ -32,6 +34,10 @@ public class EmployeeRestControllerTests {
 			Gender.FEMALE,
 			LocalDate.of(2019, 1, 1)
 	);
+
+	public EmployeeRestControllerTests(Class<?> testClass) throws InitializationError {
+		super(testClass);
+	}
 
 	@BeforeAll
 	static void setUp() throws NamingException {
@@ -54,7 +60,7 @@ public class EmployeeRestControllerTests {
 
 	@DisplayName("validate should not be isEmpty")
 	@Test
-	public void validatorShouldNotBeNull() {
+	public void validatorTest() {
 
 		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 		Set<ConstraintViolation<Employee>> cv = validator.validate(employee);
@@ -67,14 +73,15 @@ public class EmployeeRestControllerTests {
 
 	@DisplayName("ClientBuilder")
 	@Test
-	public void asdd() {
+	public void clientTest() {
 
 		Client client = ClientBuilder.newClient();
+		//client.register(CorsFilter.class);
 
 		Employee order = client
 				.target("http://localhost:8080/untitled/api/employees/")
 				.path("{id}")
-				.resolveTemplate("id", 32)
+				.resolveTemplate("id", 1)
 				.request(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.get(Response.class).readEntity(Employee.class);
