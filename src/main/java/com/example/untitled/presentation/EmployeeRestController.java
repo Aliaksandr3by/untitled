@@ -78,6 +78,22 @@ public class EmployeeRestController {
 		executor.shutdown();
 	}
 
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response getMessage(String tmp) {
+		try {
+
+			logger.info(tmp);
+
+			return Response.ok(tmp).build();
+
+		} catch (Throwable e) {
+			logger.error(e.getCause().getMessage(), e);
+			throw e;
+		}
+	}
+
 	@GET
 	@Path("suspended")
 	public void getEmployees(@Suspended final AsyncResponse ar) {
@@ -215,8 +231,8 @@ public class EmployeeRestController {
 	}
 
 	/**
-	 * @param employee
-	 * @return
+	 * @param employee employee
+	 * @return Response object
 	 */
 	@PATCH
 	public Response patchEmployeeById(final Employee employee) {
