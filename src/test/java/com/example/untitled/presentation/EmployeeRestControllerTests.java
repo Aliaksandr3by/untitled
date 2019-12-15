@@ -2,10 +2,14 @@ package com.example.untitled.presentation;
 
 import com.example.untitled.domain.Employee;
 import com.example.untitled.domain.Gender;
+import com.example.untitled.infrastructure.filters.ClientFilter;
+import com.example.untitled.infrastructure.filters.CorsFilter;
 import com.example.untitled.infrastructure.persistence.EmployeeBeanLocalRepository;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.naming.NamingException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -31,6 +35,9 @@ public class EmployeeRestControllerTests {
 			Gender.FEMALE,
 			LocalDate.of(2019, 1, 1)
 	);
+
+	@Inject
+	private transient Logger logger;
 
 	//TODO
 	@EJB
@@ -66,7 +73,7 @@ public class EmployeeRestControllerTests {
 	public void clientTest() {
 
 		Client client = ClientBuilder.newClient();
-		//client.register(CorsFilter.class);
+		client.register(ClientFilter.class);
 
 		var order2 = client.target("http://localhost:8080/untitled-1.5-SNAPSHOT/api/employees/")
 				.request(MediaType.APPLICATION_JSON)
@@ -81,7 +88,7 @@ public class EmployeeRestControllerTests {
 				.get(Response.class)
 				.readEntity(Employee.class);
 
-
+		System.out.println(order.toString());
 		assertNotNull(order);
 		assertNotNull(order2);
 

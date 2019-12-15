@@ -65,16 +65,19 @@ public class EmployeeRestController {
 
 	@PostConstruct
 	private void postConstruct() {
-		logger.info("@postConstruct EmployeeRestController");
+
+		logger.info(this.getClass().getName() + " was constructed");
 	}
 
 	public EmployeeRestController() {
+
+		System.out.println(this.getClass().getName() + " is constructed");
 	}
 
 	@PreDestroy
 	private void preDestroy() {
 
-		logger.info("@preDestroy EmployeeRestController");
+		logger.info(this.getClass().getName() + " will be destroyed");
 		executor.shutdown();
 	}
 
@@ -119,7 +122,7 @@ public class EmployeeRestController {
 				e.printStackTrace();
 			}
 
-			ar.resume(peoples);
+			ar.resume(peoples); //response filters run after resume()
 		});
 
 	}

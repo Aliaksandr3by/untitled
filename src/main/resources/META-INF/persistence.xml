@@ -32,6 +32,7 @@
 			<property name="hibernate.show_sql" value="true"/>
 			<property name="hibernate.format_sql" value="true"/>
 			<property name="hibernate.use_sql_comments" value="true"/>
+			<property name="hibernate.generate_statistics" value="true"/>
 
 			<property name="javax.persistence.lock.timeout" value="300"/>
 			<property name="javax.persistence.query.timeout" value="300"/>
