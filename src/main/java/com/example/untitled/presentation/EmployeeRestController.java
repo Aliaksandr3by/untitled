@@ -1,5 +1,9 @@
 package com.example.untitled.presentation;
 
+import com.example.untitled.JMS.AsynchMessReceiver;
+import com.example.untitled.JMS.MessageQueueBrowser;
+import com.example.untitled.JMS.MessageReceiver;
+import com.example.untitled.JMS.MessageSender;
 import com.example.untitled.domain.Employee;
 import com.example.untitled.exeptions.NotFoundException;
 import com.example.untitled.infrastructure.persistence.EmployeeBeanLocalRepository;
@@ -11,6 +15,7 @@ import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.jms.JMSException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
@@ -23,6 +28,7 @@ import javax.ws.rs.container.ConnectionCallback;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.*;
 import javax.ws.rs.ext.Providers;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -34,7 +40,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @RequestScoped
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({"application/xml; qs=0.75", "application/json; qs=1"})
-public class EmployeeRestController {
+public class EmployeeRestController implements Serializable {
 
 	@Inject
 	private transient Logger logger;
@@ -79,22 +85,6 @@ public class EmployeeRestController {
 
 		logger.info(this.getClass().getName() + " will be destroyed");
 		executor.shutdown();
-	}
-
-	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response getMessage(String tmp) {
-		try {
-
-			logger.info(tmp);
-
-			return Response.ok(tmp).build();
-
-		} catch (Throwable e) {
-			logger.error(e.getCause().getMessage(), e);
-			throw e;
-		}
 	}
 
 	@GET
@@ -343,6 +333,57 @@ public class EmployeeRestController {
 		return Response.ok(future.get()).build();
 	}
 
+
+	@Inject
+	MessageSender messageSender;
+
+	@Inject
+	MessageReceiver messageReceiver;
+
+	@Inject
+	MessageQueueBrowser messageQueueBrowser;
+
+	@Inject
+	AsynchMessReceiver asynchMessReceiver;
+
+	@Path("jmssend")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response sendMessage(final Employee employee) {
+
+		//messageSender.produceMessages();
+		messageSender.sendMessage(employee);
+
+		return Response.ok().build();
+	}
+
+	@GET
+	@Path("jmsget")
+	public Response getMessage() {
+
+		messageReceiver.getMessages();
+
+		return Response.ok().build();
+	}
+
+	@GET
+	@Path("jmsbrowse")
+	public Response browseMessage() throws JMSException {
+
+		messageQueueBrowser.browseMessages();
+
+		return Response.ok().build();
+	}
+
+	@GET
+	@Path("jmsListener")
+	public Response listenerMessage() {
+
+		asynchMessReceiver.getMessages();
+		return Response.ok().build();
+
+	}
 }
 
 
