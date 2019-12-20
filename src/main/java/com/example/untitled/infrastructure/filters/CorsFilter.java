@@ -20,19 +20,19 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
 	private transient Logger logger;
 
 	public CorsFilter() {
-		System.out.println("hkhkhk");
+
 	}
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 
-		logger.info(this.getClass().getName() + " was configured " + requestContext.getMethod());
+		logger.debug(this.getClass().getName() + " was configured " + requestContext.getMethod());
 	}
 
 	@Override
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
 
-		logger.info(this.getClass().getName() + " was configured " + requestContext.getMethod());
+		logger.debug(this.getClass().getName() + " was configured " + requestContext.getMethod());
 
 		responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
 		responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");

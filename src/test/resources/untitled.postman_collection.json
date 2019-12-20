@@ -288,30 +288,121 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "test",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json;charset=utf-8",
-						"equals": true
-					}
-				],
-				"url": {
-					"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/context",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"{{ProjectName}}",
-						"{{api}}",
-						"{{controller}}",
-						"context"
-					]
+			"name": "JMS",
+			"item": [
+				{
+					"name": "jmssend",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json;charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"employeeId\": 2,\r\n        \"firstName\": \"rrrr\",\r\n        \"lastName\": \"qweqe\",\r\n        \"departmentId\": 2,\r\n        \"jobTitle\": \"wewe\",\r\n        \"gender\": \"FEMALE\",\r\n        \"dateOfBirth\": \"2019-11-28\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/:jms",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{ProjectName}}",
+								"{{api}}",
+								"{{controller}}",
+								":jms"
+							],
+							"variable": [
+								{
+									"key": "jms",
+									"value": "jmssend"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jmsget",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=utf-8",
+								"equals": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/:jms",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{ProjectName}}",
+								"{{api}}",
+								"{{controller}}",
+								":jms"
+							],
+							"variable": [
+								{
+									"key": "jms",
+									"value": "jmsget"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jmsbrowse",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=utf-8",
+								"equals": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/:jms",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{ProjectName}}",
+								"{{api}}",
+								"{{controller}}",
+								":jms"
+							],
+							"variable": [
+								{
+									"key": "jms",
+									"value": "jmsbrowse"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}

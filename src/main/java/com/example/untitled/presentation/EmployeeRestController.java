@@ -1,6 +1,6 @@
 package com.example.untitled.presentation;
 
-import com.example.untitled.JMS.AsynchMessReceiver;
+import com.example.untitled.JMS.AsyncMessReceiver;
 import com.example.untitled.JMS.MessageQueueBrowser;
 import com.example.untitled.JMS.MessageReceiver;
 import com.example.untitled.JMS.MessageSender;
@@ -72,18 +72,17 @@ public class EmployeeRestController implements Serializable {
 	@PostConstruct
 	private void postConstruct() {
 
-		logger.info(this.getClass().getName() + " was constructed");
+		logger.debug(this.getClass().getName() + " was constructed");
 	}
 
 	public EmployeeRestController() {
 
-		System.out.println(this.getClass().getName() + " is constructed");
 	}
 
 	@PreDestroy
 	private void preDestroy() {
 
-		logger.info(this.getClass().getName() + " will be destroyed");
+		logger.debug(this.getClass().getName() + " will be destroyed");
 		executor.shutdown();
 	}
 
@@ -335,25 +334,23 @@ public class EmployeeRestController implements Serializable {
 
 
 	@Inject
-	MessageSender messageSender;
+	private MessageSender messageSender;
 
 	@Inject
-	MessageReceiver messageReceiver;
+	private MessageReceiver messageReceiver;
 
 	@Inject
-	MessageQueueBrowser messageQueueBrowser;
+	private MessageQueueBrowser messageQueueBrowser;
 
-	@Inject
-	AsynchMessReceiver asynchMessReceiver;
+//	@Inject
+//	private AsyncMessReceiver asynchMessReceiver;
 
 	@Path("jmssend")
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response sendMessage(final Employee employee) {
 
-		//messageSender.produceMessages();
-		messageSender.sendMessage(employee);
+		messageSender.produceMessages(employee);
+//		messageSender.sendMessage(employee);
 
 		return Response.ok().build();
 	}
@@ -380,7 +377,8 @@ public class EmployeeRestController implements Serializable {
 	@Path("jmsListener")
 	public Response listenerMessage() {
 
-		asynchMessReceiver.getMessages();
+//		asynchMessReceiver.getMessagesContext();
+
 		return Response.ok().build();
 
 	}

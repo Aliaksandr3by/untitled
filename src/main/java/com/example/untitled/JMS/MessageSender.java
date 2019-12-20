@@ -4,58 +4,41 @@ import com.example.untitled.domain.Employee;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Resource;
+import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.jms.*;
 
 @Named
 @ApplicationScoped
+//@Stateless
+//@JMSDestinationDefinitions({
+//		@JMSDestinationDefinition(
+//				name = "java:/jms/queue/ExpiryQueue",
+//				interfaceName = "javax.jms.Queue")}
+//) //is not permitted in the Java EE or EJB
 public class MessageSender {
 
 	@Inject
 	private Logger logger;
 
-	@Resource(mappedName = Settings.ConnectionFactory)
-	private ConnectionFactory cf;
+	@Inject
+	@JMSConnectionFactory("java:/ConnectionFactory")
+	private JMSContext context;
 
-	@Resource(mappedName = Settings.QueueExpiry)
-	private Queue queue;
+	@Resource(mappedName = "java:/jms/queue/ExpiryQueue")
+	private Queue myQueue;
 
 	public MessageSender() {
 	}
 
-	public void sendMessage(Employee employee) {
+	public void produceMessages(Employee employee) {
 
-		try (Connection connection = cf.createConnection()) {
+		try {
 
-			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			MessageProducer publisher = session.createProducer(queue);
-			connection.start();
-			ObjectMessage message = session.createObjectMessage(employee);
-			publisher.send(message);
-			logger.info(message.getBody(Employee.class));
-
-		} catch (Exception exc) {
-			logger.error("Error ! " + exc);
-		}
-
-	}
-
-	public void produceMessages() {
-
-		JMSProducer jmsProducer;
-
-		try (JMSContext jmsContext = cf.createContext()) {
-			jmsProducer = jmsContext.createProducer();
-
-			String msg1 = "Testing, 1, 2, 3. Can you hear me?";
-			String msg2 = "Do you copy???";
-			String msg3 = "Good bye!";
-
-			jmsProducer.send(queue, msg1);
-			jmsProducer.send(queue, msg2);
-			jmsProducer.send(queue, msg3);
+			context.createProducer().send(myQueue, employee);
 
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

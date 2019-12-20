@@ -10,17 +10,19 @@ import javax.ejb.Startup;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 
-@Startup
+
 public class LoggerProducer {
 
 	@PostConstruct
 	public void init() {
-		System.out.println("LoggerProducer init");
+
+//		System.out.println("LoggerProducer init");
 	}
 
 	@PreDestroy
 	public void destroy() {
-		System.out.println("LoggerProducer destroy");
+
+//		System.out.println("LoggerProducer destroy");
 	}
 
 	@Produces

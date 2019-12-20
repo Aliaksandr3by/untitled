@@ -15,10 +15,10 @@ public class MessageQueueBrowser {
 	@Inject
 	private Logger logger;
 
-	@Resource(mappedName = Settings.ConnectionFactory)
+	@Resource(mappedName = "java:/ConnectionFactory")
 	private ConnectionFactory cf;
 
-	@Resource(mappedName = Settings.QueueDLQ)
+	@Resource(mappedName = "java:/jms/queue/ExpiryQueue")
 	private Queue queue;
 
 	public MessageQueueBrowser() {
