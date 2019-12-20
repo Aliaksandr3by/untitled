@@ -400,6 +400,38 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "jmsListener",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=utf-8",
+								"equals": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{ProjectName}}/{{api}}/{{controller}}/:jms",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{ProjectName}}",
+								"{{api}}",
+								"{{controller}}",
+								":jms"
+							],
+							"variable": [
+								{
+									"key": "jms",
+									"value": "jmsListener"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}

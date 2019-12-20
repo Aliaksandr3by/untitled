@@ -13,12 +13,6 @@ import javax.jms.*;
 
 @Named
 @ApplicationScoped
-//@Stateless
-//@JMSDestinationDefinitions({
-//		@JMSDestinationDefinition(
-//				name = "java:/jms/queue/ExpiryQueue",
-//				interfaceName = "javax.jms.Queue")}
-//) //is not permitted in the Java EE or EJB
 public class MessageSender {
 
 	@Inject
@@ -28,7 +22,7 @@ public class MessageSender {
 	@JMSConnectionFactory("java:/ConnectionFactory")
 	private JMSContext context;
 
-	@Resource(mappedName = "java:/jms/queue/ExpiryQueue")
+	@Resource(mappedName = ExpiryQueueDefinition.EXPIRY_QUEUE)
 	private Queue myQueue;
 
 	public MessageSender() {

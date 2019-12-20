@@ -11,14 +11,14 @@ import javax.jms.MessageListener;
 
 
 @MessageDriven(
-		name = "MessageMDBSample",
+		name = "MessageMDBUntitled",
 		activationConfig = {
 				@ActivationConfigProperty(
 						propertyName = "destinationType",
 						propertyValue = "javax.jms.Queue"),
 				@ActivationConfigProperty(
 						propertyName = "destination",
-						propertyValue = "java:/jms/queue/ExpiryQueue"),
+						propertyValue = ExpiryQueueDefinition.EXPIRY_QUEUE),
 				@ActivationConfigProperty(
 						propertyName = "acknowledgeMode",
 						propertyValue = "Auto-acknowledge")})
