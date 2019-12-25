@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" name="XMLConfigTest" monitorInterval="10">
+<Configuration status="debug" name="XMLConfigTest" monitorInterval="10" packages="com.example.untitled">
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+			<PatternLayout pattern="%-5level %logger{36} - %msg%n"/>
+		</Console>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout pattern="%-5level %C{1}.%M %m %ex%n"/>
 		</Console>
 	</Appenders>
 	<Loggers>
-		<Logger name="by.example.app.presentation.PersonController" level="trace" additivity="false">
+		<!--
+			additivity property that determines whether an Appender adds to or overrides other inherited Appenders
+		-->
+		<Root level="WARN" additivity="true">
+			<AppenderRef ref="STDOUT"/>
+		</Root>
+		<Logger name="com.example.untitled" level="info" additivity="true">
 			<AppenderRef ref="Console"/>
 		</Logger>
-		<Root level="info">
+		<Logger name="com.example.untitled.presentation.EmployeeRestController" level="info" additivity="false">
 			<AppenderRef ref="Console"/>
-		</Root>
+		</Logger>
 	</Loggers>
 </Configuration>

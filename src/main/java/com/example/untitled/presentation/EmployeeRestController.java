@@ -1,6 +1,5 @@
 package com.example.untitled.presentation;
 
-import com.example.untitled.JMS.AsyncMessReceiver;
 import com.example.untitled.JMS.MessageQueueBrowser;
 import com.example.untitled.JMS.MessageReceiver;
 import com.example.untitled.JMS.MessageSender;
@@ -9,6 +8,7 @@ import com.example.untitled.exeptions.NotFoundException;
 import com.example.untitled.infrastructure.persistence.EmployeeBeanLocalRepository;
 import org.apache.logging.log4j.Logger;
 import org.postgresql.util.PSQLException;
+import org.slf4j.Marker;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -37,6 +37,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 @Path("employees")
+//@ApplicationScoped
 @RequestScoped
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({"application/xml; qs=0.75", "application/json; qs=1"})
@@ -72,7 +73,7 @@ public class EmployeeRestController implements Serializable {
 	@PostConstruct
 	private void postConstruct() {
 
-		logger.debug(this.getClass().getName() + " was constructed");
+		logger.debug("was constructed");
 	}
 
 	public EmployeeRestController() {
@@ -81,9 +82,9 @@ public class EmployeeRestController implements Serializable {
 
 	@PreDestroy
 	private void preDestroy() {
-
-		logger.debug(this.getClass().getName() + " will be destroyed");
+		logger.debug("will be destroyed ");
 		executor.shutdown();
+		logger.warn("executor was shutdown!");
 	}
 
 	@GET
@@ -131,7 +132,7 @@ public class EmployeeRestController implements Serializable {
 			}
 
 		} catch (Throwable e) {
-			logger.error(e.getCause().getMessage(), e);
+			logger.catching(e);
 			throw e;
 		}
 	}
@@ -152,7 +153,7 @@ public class EmployeeRestController implements Serializable {
 			}
 
 		} catch (Throwable e) {
-			logger.error(e.getCause().getMessage(), e);
+			logger.catching(e);
 			throw e;
 		}
 	}
@@ -174,7 +175,7 @@ public class EmployeeRestController implements Serializable {
 			}
 
 		} catch (NotFoundException e) {
-			logger.error(e.getMessage(), e);
+			logger.catching(e);
 			throw e;
 		}
 	}
@@ -205,7 +206,7 @@ public class EmployeeRestController implements Serializable {
 
 		} catch (javax.ejb.EJBException e) {
 
-			logger.error(e.getCause().getMessage(), e.getCause());
+			logger.catching(e);
 
 			if (e.getCause() instanceof javax.persistence.PersistenceException) {
 
@@ -216,7 +217,7 @@ public class EmployeeRestController implements Serializable {
 			throw e;
 
 		} catch (Throwable e) {
-			logger.error(e.getCause().getMessage(), e.getCause());
+			logger.catching(e);
 			throw e;
 		}
 
@@ -238,7 +239,7 @@ public class EmployeeRestController implements Serializable {
 			return Response.status(Response.Status.CREATED).build();
 
 		} catch (Throwable e) {
-			logger.error(e.getCause().getMessage(), e.getCause());
+			logger.catching(e);
 			return Response.status(Response.Status.BAD_REQUEST).entity(e.getCause().getMessage()).build();
 		}
 
@@ -256,7 +257,7 @@ public class EmployeeRestController implements Serializable {
 			return Response.status(Response.Status.CREATED).build();
 
 		} catch (Throwable e) {
-			logger.error(e.getCause().getMessage(), e.getCause());
+			logger.catching(e);
 			return Response.status(Response.Status.BAD_REQUEST).entity(e.getCause().getMessage()).build();
 		}
 
@@ -275,7 +276,7 @@ public class EmployeeRestController implements Serializable {
 			return Response.status(Response.Status.NO_CONTENT).build();
 
 		} catch (Throwable e) {
-			logger.error(e.getCause().getMessage(), e.getCause());
+			logger.catching(e);
 			return Response.status(Response.Status.BAD_REQUEST).entity(e.getCause().getMessage()).build();
 		}
 
@@ -284,6 +285,18 @@ public class EmployeeRestController implements Serializable {
 	@HEAD
 	public void headOrder() {
 		logger.info("headOrder");
+	}
+
+	@OPTIONS //the browser automatically calls it before invoking the actual POST request
+	public Response options() {
+		return Response.ok("")
+				.header("Access-Control-Allow-Origin", "http://localhost:8080, http://desktop-obc9s1r.ddns.net:8080")
+				.header("Access-Control-Allow-Credentials", "true")
+				.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+				.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+				.header("Access-Control-Max-Age", "1209600")
+				.header("aaaa", "bbbb")
+				.build();
 	}
 
 	@GET
@@ -350,7 +363,6 @@ public class EmployeeRestController implements Serializable {
 	public Response sendMessage(final Employee employee) {
 
 		messageSender.produceMessages(employee);
-//		messageSender.sendMessage(employee);
 
 		return Response.ok().build();
 	}

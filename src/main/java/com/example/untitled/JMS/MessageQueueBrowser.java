@@ -1,5 +1,6 @@
 package com.example.untitled.JMS;
 
+import com.example.untitled.domain.Employee;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Resource;
@@ -12,13 +13,15 @@ import java.util.Enumeration;
 @Named
 @ApplicationScoped
 public class MessageQueueBrowser {
+
 	@Inject
 	private Logger logger;
 
-	@Resource(mappedName = "java:/ConnectionFactory")
-	private ConnectionFactory cf;
+	@Inject
+	@JMSConnectionFactory("java:/ConnectionFactory")
+	private JMSContext context;
 
-	@Resource(mappedName = "java:/jms/queue/ExpiryQueue")
+	@Resource(mappedName = ExpiryQueueDefinition.EXPIRY_QUEUE)
 	private Queue queue;
 
 	public MessageQueueBrowser() {
@@ -27,11 +30,7 @@ public class MessageQueueBrowser {
 	public void browseMessages() throws JMSException {
 		try {
 
-			Enumeration messageEnumeration;
-			TextMessage textMessage = null;
-			JMSContext jmsContext = cf.createContext();
-			QueueBrowser browser = jmsContext.createBrowser(queue);
-			messageEnumeration = browser.getEnumeration();
+			var messageEnumeration = context.createBrowser(queue).getEnumeration();
 
 			if (messageEnumeration != null) {
 				if (!messageEnumeration.hasMoreElements()) {
@@ -43,8 +42,11 @@ public class MessageQueueBrowser {
 					logger.info("There are messages " + "in the queue.");
 
 					while (messageEnumeration.hasMoreElements()) {
-						textMessage = (TextMessage) messageEnumeration.nextElement();
-						logger.info(textMessage.getText());
+
+						var message = (Employee)messageEnumeration.nextElement();
+
+						logger.info(message.toString());
+
 					}
 
 				}

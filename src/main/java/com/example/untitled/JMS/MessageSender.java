@@ -4,12 +4,12 @@ import com.example.untitled.domain.Employee;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Resource;
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.jms.*;
+import javax.jms.JMSConnectionFactory;
+import javax.jms.JMSContext;
+import javax.jms.Queue;
 
 @Named
 @ApplicationScoped
@@ -33,6 +33,9 @@ public class MessageSender {
 		try {
 
 			context.createProducer().send(myQueue, employee);
+
+			logger.debug("ww1" + employee.toString());
+
 
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

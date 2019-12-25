@@ -9,7 +9,7 @@ import javax.ws.rs.client.ClientResponseContext;
 import javax.ws.rs.client.ClientResponseFilter;
 import javax.ws.rs.ext.Provider;
 
-
+@Deprecated
 //This type of filters is supported only as part of the Client API.
 @Provider
 public class ClientFilter implements ClientRequestFilter, ClientResponseFilter {

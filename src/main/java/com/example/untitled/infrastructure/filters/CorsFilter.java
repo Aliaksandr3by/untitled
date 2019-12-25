@@ -26,18 +26,19 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 
-		logger.debug(this.getClass().getName() + " was configured " + requestContext.getMethod());
+		logger.debug("ContainerRequestFilter was configured");
 	}
 
 	@Override
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
 
-		logger.debug(this.getClass().getName() + " was configured " + requestContext.getMethod());
+		logger.debug("ContainerResponseFilter was configured");
 
 		responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
 		responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
 		responseContext.getHeaders().add("Access-Control-Allow-Headers", "origin, content-type, accept, authorization");
 		responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+		responseContext.getHeaders().add("yeah", ":)");
 	}
 
 
