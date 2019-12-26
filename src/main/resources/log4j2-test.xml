@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" name="XMLConfigTest" monitorInterval="10" packages="com.example.untitled">
+<Configuration status="WARN" name="XMLConfigTest">
 	<Appenders>
-		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%-5level %logger{36} - %msg%n"/>
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="#1 %-5level %logger{36} - %msg%n"/>
+		</Console>
+		<Console name="ConsoleLite" target="SYSTEM_OUT">
+			<PatternLayout pattern="#2 %highlight{%d{HH:mm:ss.SSS} %-5level %logger{36}.%M() @%L - %msg%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=black, DEBUG=green bold, TRACE=blue}"/>
 		</Console>
 		<Console name="STDOUT" target="SYSTEM_OUT">
-			<PatternLayout pattern="%-5level %C{1}.%M %m %ex%n"/>
+			<PatternLayout pattern="#3 %-5level %C{1}.%M %m %ex%n"/>
 		</Console>
 	</Appenders>
 	<Loggers>
 		<!--
 			additivity property that determines whether an Appender adds to or overrides other inherited Appenders
+			additivity точка прерывания всплытия наследования логеров;
 		-->
-		<Root level="WARN" additivity="true">
+		<Root level="ERROR" additivity="false">
 			<AppenderRef ref="STDOUT"/>
 		</Root>
-		<Logger name="com.example.untitled" level="info" additivity="true">
-			<AppenderRef ref="Console"/>
+		<Logger name="com.example.untitled" level="INFO" additivity="false">
+			<AppenderRef ref="CONSOLE"/>
 		</Logger>
-		<Logger name="com.example.untitled.presentation.EmployeeRestController" level="info" additivity="false">
-			<AppenderRef ref="Console"/>
+		<Logger name="com.example.untitled.presentation.EmployeeRestController" level="DEBUG" additivity="false">
+			<AppenderRef ref="ConsoleLite"/>
 		</Logger>
 	</Loggers>
 </Configuration>

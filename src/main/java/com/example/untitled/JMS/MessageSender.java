@@ -34,7 +34,7 @@ public class MessageSender {
 
 			context.createProducer().send(myQueue, employee);
 
-			logger.debug("ww1" + employee.toString());
+			logger.debug(employee.toString());
 
 
 		} catch (Exception e) {

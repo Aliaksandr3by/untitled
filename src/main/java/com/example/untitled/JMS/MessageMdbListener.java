@@ -50,7 +50,7 @@ public class MessageMdbListener implements MessageListener {
 			if (Objects.nonNull(message) && Objects.nonNull(context)) {
 
 				Employee tmp = message.getBody(Employee.class);
-				logger.info("ww2" + tmp);
+				logger.info(tmp);
 
 			} else {
 
