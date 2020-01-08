@@ -37,7 +37,7 @@ public class MessageMdbListener implements MessageListener {
 	@PostConstruct
 	private void postConstruct() {
 		logger = LogManager.getLogger(this.getClass());
-		logger.debug("logger was constructed");
+		if(Objects.nonNull(logger)) logger.debug("logger was constructed");
 		logger.debug("was constructed");
 	}
 

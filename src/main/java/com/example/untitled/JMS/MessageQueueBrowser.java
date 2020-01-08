@@ -7,54 +7,57 @@ import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.jms.*;
-import java.util.Enumeration;
+import javax.jms.JMSConnectionFactory;
+import javax.jms.JMSContext;
+import javax.jms.JMSException;
+import javax.jms.Queue;
 
 @Named
 @ApplicationScoped
 public class MessageQueueBrowser {
 
-	@Inject
-	private Logger logger;
+    @Inject
+    private Logger logger;
 
-	@Inject
-	@JMSConnectionFactory("java:/ConnectionFactory")
-	private JMSContext context;
+    @Inject
+    @JMSConnectionFactory("java:/ConnectionFactory")
+    private JMSContext context;
 
-	@Resource(mappedName = ExpiryQueueDefinition.EXPIRY_QUEUE)
-	private Queue queue;
+    @Resource(mappedName = ExpiryQueueDefinition.EXPIRY_QUEUE)
+    private Queue queue;
 
-	public MessageQueueBrowser() {
-	}
+    public MessageQueueBrowser() {
+    }
 
-	public void browseMessages() throws JMSException {
-		try {
+    public void browseMessages() throws JMSException {
+        try {
 
-			var messageEnumeration = context.createBrowser(queue).getEnumeration();
+            var messageEnumeration = context.createBrowser(queue).getEnumeration();
 
-			if (messageEnumeration != null) {
-				if (!messageEnumeration.hasMoreElements()) {
+            if (messageEnumeration != null) {
 
-					logger.info("There are no messages " + "in the queue.");
+                if (!messageEnumeration.hasMoreElements()) {
 
-				} else {
+                    logger.info("There are no messages " + "in the queue.");
 
-					logger.info("There are messages " + "in the queue.");
+                } else {
 
-					while (messageEnumeration.hasMoreElements()) {
+                    logger.info("There are messages " + "in the queue.");
 
-						var message = (Employee)messageEnumeration.nextElement();
+                    while (messageEnumeration.hasMoreElements()) {
 
-						logger.info(message.toString());
+                        var message = (Employee) messageEnumeration.nextElement();
 
-					}
+                        logger.info(message.toString());
 
-				}
-			}
+                    }
+                }
 
-		} catch (JMSException e) {
-			e.printStackTrace();
-			throw  e;
-		}
-	}
+            }
+
+        } catch (JMSException e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
+    }
 }

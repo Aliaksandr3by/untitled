@@ -55,6 +55,15 @@ public class EmployeeRestController implements Serializable {
     @EJB
     private EmployeeBeanLocalRepository employeeBean;
 
+    @Inject
+    private MessageSender messageSender;
+
+    @Inject
+    private MessageReceiver messageReceiver;
+
+    @Inject
+    private MessageQueueBrowser messageQueueBrowser;
+
     @Context
     Application app;
     @Context
@@ -351,18 +360,6 @@ public class EmployeeRestController implements Serializable {
     }
 
 
-    @Inject
-    private MessageSender messageSender;
-
-    @Inject
-    private MessageReceiver messageReceiver;
-
-    @Inject
-    private MessageQueueBrowser messageQueueBrowser;
-
-//	@Inject
-//	private AsyncMessReceiver asynchMessReceiver;
-
     @Path("jmssend")
     @POST
     public Response sendMessage(final Employee employee) {
@@ -373,7 +370,7 @@ public class EmployeeRestController implements Serializable {
     }
 
     @GET
-    @Path("jmsget")
+    @Path("jmsGetDLQ")
     public Response getMessage() {
 
         messageReceiver.getMessages();
@@ -390,15 +387,6 @@ public class EmployeeRestController implements Serializable {
         return Response.ok().build();
     }
 
-    @GET
-    @Path("jmsListener")
-    public Response listenerMessage() {
-
-//		asynchMessReceiver.getMessagesContext();
-
-        return Response.ok().build();
-
-    }
 }
 
 

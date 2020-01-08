@@ -12,6 +12,7 @@ import javax.jms.JMSConnectionFactory;
 import javax.jms.JMSContext;
 import javax.jms.Queue;
 
+@Deprecated
 @Named
 @RequestScoped
 public class AsyncMessReceiver {

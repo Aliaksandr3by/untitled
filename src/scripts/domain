@@ -1,3 +1,5 @@
+jboss-cli.bat --connect command=:reload
+
 domain.bat
 wildfly-18.0.1.Final
 
