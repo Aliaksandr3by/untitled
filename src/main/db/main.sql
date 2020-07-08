@@ -2,10 +2,12 @@
 -- asadmin stop-domain
 /*
     employeedb
-    jdbc:postgresql://localhost:5432/employeedb
+    jdbc:postgresql://localhost:5433/employeedb
     username=guest
     password=guest
 */
+
+SELECT * FROM dbo.employee e ;
 
 CREATE ROLE guest WITH
 	SUPERUSER

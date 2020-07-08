@@ -9,8 +9,12 @@ mvn dependency:copy-dependencies
 
 
 mvn versions:display-plugin-updates
+
+https://www.mojohaus.org/versions-maven-plugin/dependency-updates-report.html
+
 mvn versions:display-dependency-updates
-mvn -D allowIncrementalUpdates=true -D allowMajorUpdates=true versions:display-dependency-updates
+
+mvn -D allowAnyUpdates=false -D allowMinorUpdates=true -D allowIncrementalUpdates=true -D allowMajorUpdates=true versions:display-dependency-updates
 
 
 mvn package –Dmaven.test.skip=true

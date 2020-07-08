@@ -2,24 +2,18 @@
 <Configuration status="WARN" name="XMLConfigTest">
     <Appenders>
         <Console name="STDOUT" target="SYSTEM_OUT">
-            <PatternLayout pattern="#1 %-5level %C{1}.%M %m %ex%n"/>
-        </Console>
-        <Console name="CONSOLE" target="SYSTEM_OUT">
-            <PatternLayout pattern="#2 %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="#1 [%t] %-5level %C{1}.%M %m %ex%n"/>
         </Console>
         <Console name="STD_OUT_LITE" target="SYSTEM_OUT">
-            <PatternLayout pattern="#3 %C{1}.%M %m %ex%n"/>
+            <PatternLayout pattern="#2 [%t] %-5level %C{1}.%M %m %ex%n"/>
         </Console>
-        <Console name="ConsoleLite" target="SYSTEM_OUT">
-            <PatternLayout
-                    pattern="#4 %highlight{%d{HH:mm:ss.SSS} %-5level %logger{36}.%M() @%L - %msg%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=black, DEBUG=green bold, TRACE=blue}"/>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="#3 [%t] %-5level %logger{36}.%M() @%L - %msg%n"/>
         </Console>
         <RollingFile name="WroxFileAppender"
                      fileName="../logs/application.log"
                      filePattern="../logs/application-%d{MM-dd-yyyy}-%i.log">
-            <PatternLayout>
-                <pattern>%d{HH:mm:ss.SSS} [%t] %X{id} %X{username} %-5level %c{36} %l: %msg%n</pattern>
-            </PatternLayout>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}.%M() @%L - %msg%n"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
@@ -27,7 +21,7 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <!--		the ancestor of all Logger s-->
+        <!--		the ancestor of all Loggers-->
         <Root level="WARN" additivity="false">
             <AppenderRef ref="STDOUT"/>
         </Root>
@@ -37,8 +31,11 @@
         <Logger name="com.example.untitled.presentation" level="DEBUG" additivity="false">
             <AppenderRef ref="STD_OUT_LITE"/>
         </Logger>
-        <Logger name="com.example.untitled.presentation.EmployeeRestController" level="DEBUG" additivity="false">
-            <AppenderRef ref="WroxFileAppender"/>
-        </Logger>
+        <logger name="com.example.untitled.presentation.EmployeeRestController" level="DEBUG" additivity="false">
+            <appender-ref ref="WroxFileAppender"/>
+            <appender-ref ref="CONSOLE">
+                <MarkerFilter marker="WROX_CONSOLE" onMatch="NEUTRAL" onMismatch="DENY"/>
+            </appender-ref>
+        </logger>
     </Loggers>
 </Configuration>

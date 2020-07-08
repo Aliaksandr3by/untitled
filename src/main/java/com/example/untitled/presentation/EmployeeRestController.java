@@ -7,7 +7,7 @@ import com.example.untitled.domain.Employee;
 import com.example.untitled.exeptions.NotFoundException;
 import com.example.untitled.infrastructure.persistence.EmployeeBeanLocalRepository;
 import org.apache.logging.log4j.Logger;
-import org.apache.maven.jxr.log.Log;
+import org.apache.logging.log4j.MarkerManager;
 import org.postgresql.util.PSQLException;
 
 import javax.annotation.PostConstruct;
@@ -91,14 +91,17 @@ public class EmployeeRestController implements Serializable {
 
     @PreDestroy
     private void preDestroy() {
-        logger.debug("will be destroyed ");
         executor.shutdown();
-        logger.info("executor was shutdown!1@");
-        logger.debug("executor was shutdown!2@");
-        logger.warn("executor was shutdown!3@");
-        logger.error("executor was shutdown!4@");
-        logger.fatal("executor was shutdown!4@");
-        logger.trace("executor was shutdown!4@");
+
+        logger.trace("trace");
+        logger.debug("debug");
+        logger.info("info");
+        logger.debug("debug");
+        logger.warn("warn");
+        logger.error("error");
+        logger.error(MarkerManager.getMarker("WROX_CONSOLE"), "WROX_CONSOLE error");
+        logger.fatal("fatal");
+
     }
 
     @GET

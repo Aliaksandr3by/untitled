@@ -9,15 +9,17 @@ import java.io.IOException;
 
 /**
  * Filters are mainly used to modify or process incoming and outgoing request or response headers.
+ * It is important to realize that filters do not create the response—they only modify or adapt the requests and responses.
  * ClientRequestFilter and ClientResponseFilter are clientside filters
  * ContainerRequestFilter and ContainerResponseFilter are serverside filters
+ * A filter and the target servlet always execute in the same invocation thread.
  */
 @Provider
 @PreMatching //will execute before the JAX-RS resource method is matched
 public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
 	@Inject
-	private transient Logger logger;
+	private Logger logger;
 
 	public CorsFilter() {
 
