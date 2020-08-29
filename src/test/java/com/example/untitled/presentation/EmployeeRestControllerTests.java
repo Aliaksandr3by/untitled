@@ -1,24 +1,24 @@
 package com.example.untitled.presentation;
 
 import com.example.untitled.domain.Employee;
+
 import com.example.untitled.domain.Gender;
 import com.example.untitled.infrastructure.filters.ClientFilter;
-import com.example.untitled.infrastructure.filters.CorsFilter;
 import com.example.untitled.infrastructure.persistence.EmployeeBeanLocalRepository;
+import jakarta.ejb.EJB;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.naming.NamingException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -31,7 +31,7 @@ public class EmployeeRestControllerTests {
 			"fn" + Math.random() * 20,
 			"ln" + Math.random() * 20,
 			1,
-			"jt" + Math.random() * 20,
+			"qwe",
 			Gender.FEMALE,
 			LocalDate.of(2019, 1, 1)
 	);

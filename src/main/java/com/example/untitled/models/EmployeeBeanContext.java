@@ -1,10 +1,11 @@
 package com.example.untitled.models;
 
 import com.example.untitled.domain.Employee;
-import com.example.untitled.exeptions.NotFoundException;
 import com.example.untitled.infrastructure.persistence.EmployeeBeanLocalRepository;
+import jakarta.ejb.Stateless;
+import jakarta.ws.rs.NotFoundException;
 
-import javax.ejb.Stateless;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;

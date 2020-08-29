@@ -5,23 +5,24 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import jakarta.persistence.*;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "employee", schema = "dbo")
 @Access(AccessType.PROPERTY)
 //@NamedQuery(name = "getAll",
-//		query = "SELECT u from Employee u order by u.employeeId")
+//		query = "SELECT u from com.example.untitled.domain.Employee u order by u.employeeId")
 //@NamedQuery(name = "getAllStartFrom",
-//		query = "SELECT u from Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
+//		query = "SELECT u from com.example.untitled.domain.Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
 @NamedQueries({
 		@NamedQuery(name = "getAll",
 				query = "SELECT u from Employee u order by u.employeeId"),

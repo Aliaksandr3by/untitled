@@ -1,10 +1,10 @@
 package com.example.untitled.infrastructure.filters;
 
+import jakarta.ws.rs.container.*;
+import jakarta.ws.rs.ext.Provider;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
-import javax.ws.rs.container.*;
-import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 
 /**

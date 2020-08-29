@@ -1,8 +1,9 @@
 package com.example.untitled.infrastructure.persistence;
 
 import com.example.untitled.domain.Employee;
+import jakarta.ejb.Local;
 
-import javax.ejb.Local;
+
 import java.util.List;
 
 @Local //можно опустить, по умолчанию local

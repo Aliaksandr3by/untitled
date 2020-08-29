@@ -1,7 +1,7 @@
 package com.example.untitled.JMS;
 
-import javax.jms.JMSDestinationDefinition;
-import javax.jms.JMSDestinationDefinitions;
+import jakarta.jms.JMSDestinationDefinition;
+import jakarta.jms.JMSDestinationDefinitions;
 
 //TODO wildfly11 выдает ошибку
 //is not permitted in the Java EE or EJB

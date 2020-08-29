@@ -1,17 +1,18 @@
 package com.example.untitled.JMS;
 
 import com.example.untitled.domain.Employee;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.ejb.ActivationConfigProperty;
+import jakarta.ejb.MessageDriven;
+import jakarta.ejb.MessageDrivenContext;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
-import javax.ejb.MessageDrivenContext;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
+
 import java.util.Objects;
 
 @MessageDriven(

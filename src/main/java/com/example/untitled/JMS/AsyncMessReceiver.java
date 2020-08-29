@@ -1,16 +1,16 @@
 package com.example.untitled.JMS;
 
 import com.example.untitled.domain.Employee;
+import jakarta.annotation.Resource;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.JMSConnectionFactory;
+import jakarta.jms.JMSContext;
+import jakarta.jms.Queue;
 import org.apache.logging.log4j.Logger;
 
-import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSConnectionFactory;
-import javax.jms.JMSContext;
-import javax.jms.Queue;
 
 @Deprecated
 @Named

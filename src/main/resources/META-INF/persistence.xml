@@ -12,7 +12,9 @@
 		<!--		<jta-data-source>jdbc/poolpostgre</jta-data-source>-->
 
 		<class>com.example.untitled.domain.Employee</class>
+
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 		<validation-mode>CALLBACK</validation-mode>
 
@@ -24,7 +26,7 @@
 			<property name="hibernate.transaction.jta.platform"
 					  value="org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"/>
 
-			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
 
 			<!--			<property name="hibernate.hbm2ddl.auto" value="update"/>-->

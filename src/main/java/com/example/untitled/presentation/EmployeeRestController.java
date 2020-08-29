@@ -4,30 +4,34 @@ import com.example.untitled.JMS.MessageQueueBrowser;
 import com.example.untitled.JMS.MessageReceiver;
 import com.example.untitled.JMS.MessageSender;
 import com.example.untitled.domain.Employee;
-import com.example.untitled.exeptions.NotFoundException;
+
 import com.example.untitled.infrastructure.persistence.EmployeeBeanLocalRepository;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
+import jakarta.jms.JMSException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.container.AsyncResponse;
+import jakarta.ws.rs.container.CompletionCallback;
+import jakarta.ws.rs.container.ConnectionCallback;
+import jakarta.ws.rs.container.Suspended;
+import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.ext.Providers;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.MarkerManager;
 import org.postgresql.util.PSQLException;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.EJB;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.jms.JMSException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.ws.rs.*;
-import javax.ws.rs.container.AsyncResponse;
-import javax.ws.rs.container.CompletionCallback;
-import javax.ws.rs.container.ConnectionCallback;
-import javax.ws.rs.container.Suspended;
-import javax.ws.rs.core.*;
-import javax.ws.rs.ext.Providers;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -43,352 +47,352 @@ import java.util.concurrent.locks.ReentrantLock;
 @Consumes({"application/xml; qs=0.75", "application/json; qs=1"})
 public class EmployeeRestController implements Serializable {
 
-    @Inject
-    private transient Logger logger;
+	@Inject
+	private transient Logger logger;
 
-    @Inject
-    ValidatorFactory validatorFactory;
+	@Inject
+	ValidatorFactory validatorFactory;
 
-    @Inject
-    Validator validator;
+	@Inject
+	Validator validator;
 
-    @EJB
-    private EmployeeBeanLocalRepository employeeBean;
+	@EJB
+	private EmployeeBeanLocalRepository employeeBean;
 
-    @Inject
-    private MessageSender messageSender;
+	@Inject
+	private MessageSender messageSender;
 
-    @Inject
-    private MessageReceiver messageReceiver;
+	@Inject
+	private MessageReceiver messageReceiver;
 
-    @Inject
-    private MessageQueueBrowser messageQueueBrowser;
+	@Inject
+	private MessageQueueBrowser messageQueueBrowser;
 
-    @Context
-    Application app;
-    @Context
-    UriInfo uri;
-    @Context
-    HttpHeaders headers;
-    @Context
-    Request request;
-    @Context
-    SecurityContext security;
-    @Context
-    Providers providers;
+	@Context
+	Application app;
+	@Context
+	UriInfo uri;
+	@Context
+	HttpHeaders headers;
+	@Context
+	Request request;
+	@Context
+	SecurityContext security;
+	@Context
+	Providers providers;
 
-    private ExecutorService executor = Executors.newFixedThreadPool(10);
+	private ExecutorService executor = Executors.newFixedThreadPool(10);
 
-    @PostConstruct
-    private void postConstruct() {
+	@PostConstruct
+	private void postConstruct() {
 
-        logger.debug("was constructed");
-    }
+		logger.debug("was constructed");
+	}
 
-    public EmployeeRestController() {
+	public EmployeeRestController() {
 
-    }
+	}
 
-    @PreDestroy
-    private void preDestroy() {
-        executor.shutdown();
+	@PreDestroy
+	private void preDestroy() {
+		executor.shutdown();
 
-        logger.trace("trace");
-        logger.debug("debug");
-        logger.info("info");
-        logger.debug("debug");
-        logger.warn("warn");
-        logger.error("error");
-        logger.error(MarkerManager.getMarker("WROX_CONSOLE"), "WROX_CONSOLE error");
-        logger.fatal("fatal");
+		logger.trace("trace");
+		logger.debug("debug");
+		logger.info("info");
+		logger.debug("debug");
+		logger.warn("warn");
+		logger.error("error");
+		logger.error(MarkerManager.getMarker("WROX_CONSOLE"), "WROX_CONSOLE error");
+		logger.fatal("fatal");
 
-    }
+	}
 
-    @GET
-    @Path("suspended")
-    public void getEmployees(@Suspended final AsyncResponse ar) {
+	@GET
+	@Path("suspended")
+	public void getEmployees(@Suspended final AsyncResponse ar) {
 
-        ar.register((CompletionCallback) ((Throwable ex) -> {
-            logger.info("onComplete");
-            if (Objects.nonNull(ex)) logger.error(ex.getMessage(), ex);
-        }));
+		ar.register((CompletionCallback) ((Throwable ex) -> {
+			logger.info("onComplete");
+			if (Objects.nonNull(ex)) logger.error(ex.getMessage(), ex);
+		}));
 
-        ar.register((ConnectionCallback) ((AsyncResponse ar1) -> {
-            logger.info("onDisconnect");
-            if (ar1.isCancelled()) logger.info("isCancelled");
-        }));
+		ar.register((ConnectionCallback) ((AsyncResponse ar1) -> {
+			logger.info("onDisconnect");
+			if (ar1.isCancelled()) logger.info("isCancelled");
+		}));
 
-        executor.submit(() -> {
+		executor.submit(() -> {
 
-            List<Employee> peoples = employeeBean.getAll();
+			List<Employee> peoples = employeeBean.getAll();
 
-            try {
-                TimeUnit.SECONDS.sleep(6);
+			try {
+				TimeUnit.SECONDS.sleep(6);
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 
-            ar.resume(peoples); //response filters run after resume()
-        });
+			ar.resume(peoples); //response filters run after resume()
+		});
 
-    }
+	}
 
-    @GET
-    public Response getEmployees() {
-        try {
+	@GET
+	public Response getEmployees() {
+		try {
 
-            logger.info("getEmployees()");
+			logger.info("getEmployees()");
 
-            List<Employee> employee = employeeBean.getAll();
+			List<Employee> employee = employeeBean.getAll();
 
-            if (!employee.isEmpty()) {
-                return Response.ok(employee).build();
-            } else {
-                return Response.status(Response.Status.NOT_FOUND).build();
-            }
+			if (!employee.isEmpty()) {
+				return Response.ok(employee).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
 
-        } catch (Throwable e) {
-            logger.catching(e);
-            throw e;
-        }
-    }
+		} catch (Throwable e) {
+			logger.catching(e);
+			throw e;
+		}
+	}
 
-    @GET
-    @Path("selected")
-    public Response getSelected(@QueryParam("start") Long from, @QueryParam("page") Long page) {
-        try {
+	@GET
+	@Path("selected")
+	public Response getSelected(@QueryParam("start") Long from, @QueryParam("page") Long page) {
+		try {
 
-            logger.info("Initiated getSelected method");
+			logger.info("Initiated getSelected method");
 
-            List<Employee> employee = employeeBean.getAll(from, page);
+			List<Employee> employee = employeeBean.getAll(from, page);
 
-            if (Objects.nonNull(employee)) {
-                return Response.ok(employee).status(Response.Status.OK).build();
-            } else {
-                return Response.status(Response.Status.NOT_FOUND).build();
-            }
+			if (Objects.nonNull(employee)) {
+				return Response.ok(employee).status(Response.Status.OK).build();
+			} else {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			}
 
-        } catch (Throwable e) {
-            logger.catching(e);
-            throw e;
-        }
-    }
+		} catch (Throwable e) {
+			logger.catching(e);
+			throw e;
+		}
+	}
 
-    @GET
-    @Path("{id}")
-    public Response getEmployeeById(@PathParam("id") Long id) {
-        try {
+	@GET
+	@Path("{id}")
+	public Response getEmployeeById(@PathParam("id") Long id) {
+		try {
 
-            logger.info("Initiated getEmployee method.");
+			logger.info("Initiated getEmployee method.");
 
-            Employee employee = employeeBean.findById(id);
+			Employee employee = employeeBean.findById(id);
 
-            if (Objects.nonNull(employee)) {
-                return Response.ok(employee).status(Response.Status.OK).build();
-            } else {
-                throw new NotFoundException("Item was not found");
-                //return Response.status(Response.Status.NOT_FOUND).build();
-            }
+			if (Objects.nonNull(employee)) {
+				return Response.ok(employee).status(Response.Status.OK).build();
+			} else {
+				throw new NotFoundException("Item was not found");
+				//return Response.status(Response.Status.NOT_FOUND).build();
+			}
 
-        } catch (NotFoundException e) {
-            logger.catching(e);
-            throw e;
-        }
-    }
+		} catch (NotFoundException e) {
+			logger.catching(e);
+			throw e;
+		}
+	}
 
-    @POST
-    public Response createEmployee(final Employee employee) {
+	@POST
+	public Response createEmployee(final Employee employee) {
 
-        Set<ConstraintViolation<Employee>> cv;
+		Set<ConstraintViolation<Employee>> cv;
 
-        try {
-            employee.setEmployeeId(null);
-            cv = validator.validate(employee);
+		try {
+			employee.setEmployeeId(null);
+			cv = validator.validate(employee);
 
-            if (cv.isEmpty()) {
+			if (cv.isEmpty()) {
 
-                employeeBean.add(employee);
+				employeeBean.add(employee);
 
-                logger.info(employee.toString());
+				logger.info(employee.toString());
 
-                return Response.status(Response.Status.CREATED).build();
+				return Response.status(Response.Status.CREATED).build();
 
-            } else {
+			} else {
 
-                ConstraintViolation<Employee> tmp = cv.stream().findFirst().get();
-                return Response.status(Response.Status.BAD_REQUEST).entity(tmp.getMessage()).build();
+				ConstraintViolation<Employee> tmp = cv.stream().findFirst().get();
+				return Response.status(Response.Status.BAD_REQUEST).entity(tmp.getMessage()).build();
 
-            }
+			}
 
-        } catch (javax.ejb.EJBException e) {
+		} catch (EJBException e) {
 
-            logger.catching(e);
+			logger.catching(e);
 
-            if (e.getCause() instanceof javax.persistence.PersistenceException) {
+			if (e.getCause() instanceof javax.persistence.PersistenceException) {
 
-                PSQLException ex = (PSQLException) e.getCause().getCause().getCause();
-                return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
-            }
+				PSQLException ex = (PSQLException) e.getCause().getCause().getCause();
+				return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+			}
 
-            throw e;
+			throw e;
 
-        } catch (Throwable e) {
-            logger.catching(e);
-            throw e;
-        }
+		} catch (Throwable e) {
+			logger.catching(e);
+			throw e;
+		}
 
-    }
+	}
 
-    /**
-     * @param employee employee
-     * @return Response object
-     */
-    @PATCH
-    public Response patchEmployeeById(final Employee employee) {
+	/**
+	 * @param employee employee
+	 * @return Response object
+	 */
+	@PATCH
+	public Response patchEmployeeById(final Employee employee) {
 
-        try {
+		try {
 
-            logger.info("Initiated putEmployeeById method.");
+			logger.info("Initiated putEmployeeById method.");
 
-            employeeBean.patch(employee);
+			employeeBean.patch(employee);
 
-            return Response.status(Response.Status.CREATED).build();
+			return Response.status(Response.Status.CREATED).build();
 
-        } catch (Throwable e) {
-            logger.catching(e);
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getCause().getMessage()).build();
-        }
+		} catch (Throwable e) {
+			logger.catching(e);
+			return Response.status(Response.Status.BAD_REQUEST).entity(e.getCause().getMessage()).build();
+		}
 
-    }
+	}
 
-    @PUT
-    public Response putPartEmployeeById(final Employee employee) {
+	@PUT
+	public Response putPartEmployeeById(final Employee employee) {
 
-        try {
+		try {
 
-            logger.info("Initiated patchPartEmployeeById method.");
+			logger.info("Initiated patchPartEmployeeById method.");
 
-            employeeBean.update(employee);
+			employeeBean.update(employee);
 
-            return Response.status(Response.Status.CREATED).build();
+			return Response.status(Response.Status.CREATED).build();
 
-        } catch (Throwable e) {
-            logger.catching(e);
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getCause().getMessage()).build();
-        }
+		} catch (Throwable e) {
+			logger.catching(e);
+			return Response.status(Response.Status.BAD_REQUEST).entity(e.getCause().getMessage()).build();
+		}
 
-    }
+	}
 
-    @DELETE
-    @Path("{id}")
-    public Response deleteEmployeeById(@PathParam("id") final Long id) {
+	@DELETE
+	@Path("{id}")
+	public Response deleteEmployeeById(@PathParam("id") final Long id) {
 
-        try {
+		try {
 
-            logger.info("Initiated deleteEmployeeById method.");
+			logger.info("Initiated deleteEmployeeById method.");
 
-            employeeBean.remove(id);
+			employeeBean.remove(id);
 
-            return Response.status(Response.Status.NO_CONTENT).build();
+			return Response.status(Response.Status.NO_CONTENT).build();
 
-        } catch (Throwable e) {
-            logger.catching(e);
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getCause().getMessage()).build();
-        }
+		} catch (Throwable e) {
+			logger.catching(e);
+			return Response.status(Response.Status.BAD_REQUEST).entity(e.getCause().getMessage()).build();
+		}
 
-    }
+	}
 
-    @HEAD
-    public void headOrder() {
-        logger.info("headOrder");
-    }
+	@HEAD
+	public void headOrder() {
+		logger.info("headOrder");
+	}
 
-    @OPTIONS //the browser automatically calls it before invoking the actual POST request
-    public Response options() {
-        return Response.ok("")
-                .header("Access-Control-Allow-Origin", "http://localhost:8080, http://desktop-obc9s1r.ddns.net:8080")
-                .header("Access-Control-Allow-Credentials", "true")
-                .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
-                .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
-                .header("Access-Control-Max-Age", "1209600")
-                .header("aaaa", "bbbb")
-                .build();
-    }
+	@OPTIONS //the browser automatically calls it before invoking the actual POST request
+	public Response options() {
+		return Response.ok("")
+				.header("Access-Control-Allow-Origin", "http://localhost:8080, http://desktop-obc9s1r.ddns.net:8080")
+				.header("Access-Control-Allow-Credentials", "true")
+				.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+				.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+				.header("Access-Control-Max-Age", "1209600")
+				.header("aaaa", "bbbb")
+				.build();
+	}
 
-    @GET
-    @Path("context")
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-    public Response context(
-            @Context HttpServletRequest request,
-            @Context HttpServletResponse response) throws InterruptedException, ExecutionException {
+	@GET
+	@Path("context")
+	@Produces({MediaType.APPLICATION_JSON})
+	@Consumes({MediaType.APPLICATION_JSON})
+	public Response context(
+			@Context HttpServletRequest request,
+			@Context HttpServletResponse response) throws InterruptedException, ExecutionException {
 
-        Object lock = new Object();
-        Lock reentrantLock = new ReentrantLock();
+		Object lock = new Object();
+		Lock reentrantLock = new ReentrantLock();
 
-        FutureTask<String> future = new FutureTask<>(() -> {
-            synchronized (lock) {
-                try {
-                    reentrantLock.lock();
-                    Thread.sleep(3000);
-                    System.out.println("wait " + Thread.currentThread().getName() + Thread.currentThread().getState());
-                    Thread.sleep(3000);
-                    lock.wait();
-                } catch (InterruptedException e) {
-                    System.out.println("interrupted");
-                }
-            }
-            System.out.println("thread");
-            reentrantLock.unlock();
-            return "q1111";
-        });
+		FutureTask<String> future = new FutureTask<>(() -> {
+			synchronized (lock) {
+				try {
+					reentrantLock.lock();
+					Thread.sleep(3000);
+					System.out.println("wait " + Thread.currentThread().getName() + Thread.currentThread().getState());
+					Thread.sleep(3000);
+					lock.wait();
+				} catch (InterruptedException e) {
+					System.out.println("interrupted");
+				}
+			}
+			System.out.println("thread");
+			reentrantLock.unlock();
+			return "q1111";
+		});
 
-        Executor executor = (runnable) -> {
-            new Thread(runnable).start();
-        };
+		Executor executor = (runnable) -> {
+			new Thread(runnable).start();
+		};
 
-        executor.execute(future);
+		executor.execute(future);
 
-        // Ждём и после этого забираем себе лок, оповещаем и отдаём лок
-        Thread.sleep(3000);
+		// Ждём и после этого забираем себе лок, оповещаем и отдаём лок
+		Thread.sleep(3000);
 
-        System.out.println("main " + Thread.currentThread().getName() + Thread.currentThread().getState());
+		System.out.println("main " + Thread.currentThread().getName() + Thread.currentThread().getState());
 
-        synchronized (lock) {
-            lock.notify();
-        }
+		synchronized (lock) {
+			lock.notify();
+		}
 
-        return Response.ok(future.get()).build();
-    }
+		return Response.ok(future.get()).build();
+	}
 
 
-    @Path("jmssend")
-    @POST
-    public Response sendMessage(final Employee employee) {
+	@Path("jmssend")
+	@POST
+	public Response sendMessage(final Employee employee) {
 
-        messageSender.produceMessages(employee);
+		messageSender.produceMessages(employee);
 
-        return Response.ok().build();
-    }
+		return Response.ok().build();
+	}
 
-    @GET
-    @Path("jmsGetDLQ")
-    public Response getMessage() {
+	@GET
+	@Path("jmsGetDLQ")
+	public Response getMessage() {
 
-        messageReceiver.getMessages();
+		messageReceiver.getMessages();
 
-        return Response.ok().build();
-    }
+		return Response.ok().build();
+	}
 
-    @GET
-    @Path("jmsbrowse")
-    public Response browseMessage() throws JMSException {
+	@GET
+	@Path("jmsbrowse")
+	public Response browseMessage() throws JMSException {
 
-        messageQueueBrowser.browseMessages();
+		messageQueueBrowser.browseMessages();
 
-        return Response.ok().build();
-    }
+		return Response.ok().build();
+	}
 
 }
 
