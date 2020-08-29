@@ -77,7 +77,7 @@ public class EmployeeRestController implements Serializable {
     @Context
     Providers providers;
 
-    private ExecutorService executor = Executors.newFixedThreadPool(10);
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     @PostConstruct
     private void postConstruct() {

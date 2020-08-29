@@ -37,7 +37,7 @@ public class EntityManagerProducer {
 	}
 
 	@PreDestroy
-	private void preDestroy(){
+	private void preDestroy() {
 		logger.info("@preDestroy EntityManagerProducer");
 	}
 

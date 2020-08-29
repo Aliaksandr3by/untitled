@@ -3,7 +3,6 @@ package com.example.untitled.presentation;
 import com.example.untitled.domain.Employee;
 import com.example.untitled.domain.Gender;
 import com.example.untitled.infrastructure.filters.ClientFilter;
-import com.example.untitled.infrastructure.filters.CorsFilter;
 import com.example.untitled.infrastructure.persistence.EmployeeBeanLocalRepository;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
@@ -27,7 +26,7 @@ import static org.junit.Assert.assertTrue;
 
 public class EmployeeRestControllerTests {
 
-	private Employee employee = new Employee(
+	private final Employee employee = new Employee(
 			"fn" + Math.random() * 20,
 			"ln" + Math.random() * 20,
 			1,

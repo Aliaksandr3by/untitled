@@ -12,6 +12,7 @@
 		<!--		<jta-data-source>jdbc/poolpostgre</jta-data-source>-->
 
 		<class>com.example.untitled.domain.Employee</class>
+
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 		<validation-mode>CALLBACK</validation-mode>
