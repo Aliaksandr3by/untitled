@@ -125,6 +125,7 @@
 			<version>2.1.6</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>jakarta.websocket</groupId>
 			<artifactId>jakarta.websocket-api</artifactId>
@@ -202,7 +203,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.14</version>
+			<version>42.2.16</version>
 		</dependency>
 
 		<!--		hibernate-->
@@ -330,7 +331,7 @@
 		<dependency>
 			<groupId>org.jboss.arquillian.core</groupId>
 			<artifactId>arquillian-core-api</artifactId>
-			<version>1.6.0.Final</version>
+			<version>1.7.0.Alpha4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -343,20 +344,20 @@
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
 			<artifactId>arquillian-junit-core</artifactId>
-			<version>1.6.0.Final</version>
+			<version>1.7.0.Alpha4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
 			<artifactId>arquillian-junit-container</artifactId>
-			<version>1.6.0.Final</version>
+			<version>1.7.0.Alpha4</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.arquillian.container</groupId>
 			<artifactId>arquillian-container-test-api</artifactId>
-			<version>1.6.0.Final</version>
+			<version>1.7.0.Alpha4</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -364,13 +365,13 @@
 		<dependency>
 			<groupId>org.wildfly.arquillian</groupId>
 			<artifactId>wildfly-arquillian-container-managed</artifactId>
-			<version>2.2.0.Final</version>
+			<version>3.0.0.Beta2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.wildfly.core</groupId>
 			<artifactId>wildfly-embedded</artifactId>
-			<version>13.0.0.Beta1</version>
+			<version>13.0.0.Beta5</version>
 			<scope>test</scope>
 		</dependency>
 
