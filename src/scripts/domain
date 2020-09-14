@@ -1,3 +1,5 @@
+JAVA_OPTS=-agentlib:jdwp\=transport\=dt_socket,address\=127.0.0.1:4657,suspend\=y,server\=n
+
 jboss-cli.bat --connect command=:reload
 
 domain.bat

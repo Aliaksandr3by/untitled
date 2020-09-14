@@ -7,6 +7,7 @@ mvn plugin_identifier:goal_identifier
 clean:clean: clean before the colon (:) represents the clean plug-in, and the clean following the colon represents the clean goal.
 
 mvn help:describe -Dplugin=exec
+mvn package –Dmaven.test.skip=true
 
 mvn dependency:analyze
 mvn dependency:analyze-duplicate
