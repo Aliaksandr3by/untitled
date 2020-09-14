@@ -23,8 +23,6 @@
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<jboss.home>C:/opt/wildfly</jboss.home>
-		<jboss.port>9990</jboss.port>
 	</properties>
 
 	<scm>
@@ -511,29 +509,17 @@
 					<artifactId>wildfly-maven-plugin</artifactId>
 					<version>2.1.0.Beta1</version>
 					<configuration>
-						<force>true</force>
+						<!--						<force>true</force>-->
 						<!--						<server-groups>-->
 						<!--							<server-group>main-server-group</server-group>-->
 						<!--						</server-groups>-->
-						<jboss-home>${jboss.home}</jboss-home>
-						<modules-path>${jboss.home}/modules</modules-path>
-						<port>${jboss.port}</port>
+						<jboss-home>C:/opt/wildfly</jboss-home>
+						<modules-path>C:/opt/wildfly/modules</modules-path>
+						<port>9990</port>
 						<java-opts>
-							<!--
-								ERROR: transport error 202: connect failed: Connection refused
-								ERROR: JDWP Transport dt_socket failed to initialize, TRANSPORT_INIT(510)
-								JDWP exit error AGENT_ERROR_TRANSPORT_INIT(197): No transports initialized [:732]
-							-->
-<!--							<java-opt>-->
-<!--								-agentlib:jdwp=transport=dt_socket,address=127.0.0.1:8787,suspend=y,server=n-->
-<!--								-agentlib:jdwp\=transport\=dt_socket,address\=127.0.0.1:4657,suspend\=y,server\=n-->
-<!--							</java-opt>-->
+<!--							<java-opt>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005</java-opt>-->
 						</java-opts>
 					</configuration>
-
-					<executions>
-
-					</executions>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
