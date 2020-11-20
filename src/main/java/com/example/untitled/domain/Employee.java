@@ -15,17 +15,17 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Entity
-@Table(name = "employee", schema = "dbo")
-@Access(AccessType.PROPERTY)
+@javax.persistence.Entity
+@javax.persistence.Table(name = "employee", schema = "dbo")
+@javax.persistence.Access(AccessType.PROPERTY)
 //@NamedQuery(name = "getAll",
 //		query = "SELECT u from com.example.untitled.domain.Employee u order by u.employeeId")
 //@NamedQuery(name = "getAllStartFrom",
 //		query = "SELECT u from com.example.untitled.domain.Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
-@NamedQueries({
-		@NamedQuery(name = "getAll",
+@javax.persistence.NamedQueries({
+		@javax.persistence.NamedQuery(name = "getAll",
 				query = "SELECT u from com.example.untitled.domain.Employee u order by u.employeeId"),
-		@NamedQuery(name = "getAllStartFrom",
+		@javax.persistence.NamedQuery(name = "getAllStartFrom",
 				query = "SELECT u1 from com.example.untitled.domain.Employee u1 where u1.employeeId between :startId AND :fromId order by u1.employeeId")
 })
 public class Employee implements Serializable {
