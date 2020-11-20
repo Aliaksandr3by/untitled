@@ -24,9 +24,9 @@ import java.util.Objects;
 //		query = "SELECT u from com.example.untitled.domain.Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
 @NamedQueries({
 		@NamedQuery(name = "getAll",
-				query = "SELECT u from Employee u order by u.employeeId"),
+				query = "SELECT u from com.example.untitled.domain.Employee u order by u.employeeId"),
 		@NamedQuery(name = "getAllStartFrom",
-				query = "SELECT u from Employee u where u.employeeId between :startId AND :fromId order by u.employeeId")
+				query = "SELECT u1 from com.example.untitled.domain.Employee u1 where u1.employeeId between :startId AND :fromId order by u1.employeeId")
 })
 public class Employee implements Serializable {
 

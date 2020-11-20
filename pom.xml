@@ -202,6 +202,7 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>42.2.16</version>
+
 		</dependency>
 
 		<!--		hibernate-->
@@ -369,7 +370,7 @@
 		<dependency>
 			<groupId>org.wildfly.core</groupId>
 			<artifactId>wildfly-embedded</artifactId>
-			<version>13.0.0.Beta5</version>
+			<version>13.0.0.Beta6</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -378,13 +379,13 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>3.5.10</version>
+			<version>3.5.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>3.5.10</version>
+			<version>3.5.11</version>
 			<scope>test</scope>
 		</dependency>
 
