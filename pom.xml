@@ -37,13 +37,13 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
-			<version>2.13.3</version>
+			<version>2.14.0</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-1.2-api</artifactId>
-			<version>2.13.3</version>
+			<version>2.14.0</version>
 			<scope>compile</scope>
 		</dependency>
 
@@ -51,21 +51,21 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.13.3</version>
+			<version>2.14.0</version>
 			<scope>compile</scope>
 		</dependency>
 		<!-- adapter to support the Commons Logging API-->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-jcl</artifactId>
-			<version>2.13.3</version>
+			<version>2.14.0</version>
 			<scope>runtime</scope>
 		</dependency>
 		<!--SLF4J implementation adapter-->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.13.3</version>
+			<version>2.14.0</version>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -179,29 +179,29 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.11.2</version>
+			<version>2.12.0-rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.11.2</version>
+			<version>2.12.0-rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.11.2</version>
+			<version>2.12.0-rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>2.11.2</version>
+			<version>2.12.0-rc2</version>
 		</dependency>
 
 		<!--		postgresql-->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.16</version>
+			<version>42.2.18</version>
 
 		</dependency>
 
@@ -321,7 +321,7 @@
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.el</artifactId>
-			<version>3.0.1-b11</version>
+			<version>3.0.1-b12</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -330,7 +330,7 @@
 		<dependency>
 			<groupId>org.jboss.arquillian.core</groupId>
 			<artifactId>arquillian-core-api</artifactId>
-			<version>1.7.0.Alpha4</version>
+			<version>1.7.0.Alpha5</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -343,20 +343,20 @@
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
 			<artifactId>arquillian-junit-core</artifactId>
-			<version>1.7.0.Alpha4</version>
+			<version>1.7.0.Alpha5</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
 			<artifactId>arquillian-junit-container</artifactId>
-			<version>1.7.0.Alpha4</version>
+			<version>1.7.0.Alpha5</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.arquillian.container</groupId>
 			<artifactId>arquillian-container-test-api</artifactId>
-			<version>1.7.0.Alpha4</version>
+			<version>1.7.0.Alpha5</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -364,13 +364,13 @@
 		<dependency>
 			<groupId>org.wildfly.arquillian</groupId>
 			<artifactId>wildfly-arquillian-container-managed</artifactId>
-			<version>3.0.0.Beta3</version>
+			<version>3.0.1.Final</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.wildfly.core</groupId>
 			<artifactId>wildfly-embedded</artifactId>
-			<version>13.0.0.Beta6</version>
+			<version>14.0.0.Beta2</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -379,13 +379,13 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>3.5.11</version>
+			<version>3.6.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>3.5.11</version>
+			<version>3.6.0</version>
 			<scope>test</scope>
 		</dependency>
 
